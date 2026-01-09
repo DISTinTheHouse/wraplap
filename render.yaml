@@ -1,7 +1,7 @@
 services:
   - type: web
     name: wraplab
-    runtime: python
+    runtime: python  # nota: "runtime: python" en lugar de "env: python" (la sintaxis actual)
     buildCommand: "pip install -r requirements.txt && python manage.py collectstatic --no-input && python manage.py migrate --noinput"
     startCommand: "gunicorn wraplab.wsgi:application --bind 0.0.0.0:$PORT --workers 3 --timeout 60 --log-level info"
     envVars:
