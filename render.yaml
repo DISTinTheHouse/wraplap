@@ -2,10 +2,10 @@ services:
   - type: web
     name: wraplab
     runtime: python
-    buildCommand: "pip install -r requirements.txt && python manage.py collectstatic --no-input && python manage.py migrate"
-    startCommand: "gunicorn wraplab.wsgi:application"
+    buildCommand: "pip install -r requirements.txt && python manage.py collectstatic --no-input && python manage.py migrate --noinput"
+    startCommand: "gunicorn wraplab.wsgi:application --workers 3 --timeout 60 --log-level info"
     envVars:
       - key: SECRET_KEY
         generateValue: true
       - key: PYTHON_VERSION
-        value: 3.12.0
+        value: 3.12.7
