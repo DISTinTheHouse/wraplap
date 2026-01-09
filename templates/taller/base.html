@@ -5,24 +5,29 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>{% block title %}The Wrap Lab - Expertos en Wrapping y PPF{% endblock %}</title>
-  
+
   <!-- SEO Meta Tags -->
-  <meta name="description" content="{% block meta_description %}The Wrap Lab: Líderes en transformación vehicular en México. Servicios premium de Car Wrapping, Paint Protection Film (PPF) y estética automotriz.{% endblock %}">
-  <meta name="keywords" content="{% block meta_keywords %}wrapping, ppf, paint protection film, vinil automotriz, car wrap, estetica automotriz, mexico, proteccion pintura, cambio de color{% endblock %}">
+  <meta name="description"
+    content="{% block meta_description %}The Wrap Lab: Líderes en transformación vehicular en México. Servicios premium de Car Wrapping, Paint Protection Film (PPF) y estética automotriz.{% endblock %}">
+  <meta name="keywords"
+    content="{% block meta_keywords %}wrapping, ppf, paint protection film, vinil automotriz, car wrap, estetica automotriz, mexico, proteccion pintura, cambio de color{% endblock %}">
   <meta name="author" content="The Wrap Lab">
   <meta name="robots" content="{% block meta_robots %}index, follow{% endblock %}">
-  
+
   <!-- Open Graph / Facebook -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="{{ request.build_absolute_uri }}">
   <meta property="og:title" content="{% block og_title %}The Wrap Lab - Expertos en Wrapping y PPF{% endblock %}">
-  <meta property="og:description" content="{% block og_description %}Transformamos y protegemos tu vehículo con los mejores materiales del mercado. Wrapping Premium y PPF de alta gama.{% endblock %}">
-  
+  <meta property="og:description"
+    content="{% block og_description %}Transformamos y protegemos tu vehículo con los mejores materiales del mercado. Wrapping Premium y PPF de alta gama.{% endblock %}">
+
   <!-- Twitter -->
   <meta property="twitter:card" content="summary_large_image">
   <meta property="twitter:url" content="{{ request.build_absolute_uri }}">
-  <meta property="twitter:title" content="{% block twitter_title %}The Wrap Lab - Expertos en Wrapping y PPF{% endblock %}">
-  <meta property="twitter:description" content="{% block twitter_description %}Transformamos y protegemos tu vehículo con los mejores materiales del mercado. Wrapping Premium y PPF de alta gama.{% endblock %}">
+  <meta property="twitter:title"
+    content="{% block twitter_title %}The Wrap Lab - Expertos en Wrapping y PPF{% endblock %}">
+  <meta property="twitter:description"
+    content="{% block twitter_description %}Transformamos y protegemos tu vehículo con los mejores materiales del mercado. Wrapping Premium y PPF de alta gama.{% endblock %}">
 
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
@@ -52,9 +57,9 @@
     input:focus,
     select:focus,
     textarea:focus {
-      border-color: #6366f1;
-      /* indigo-500 */
-      box-shadow: 0 0 0 1px #6366f1;
+      border-color: #0ea5e9;
+      /* sky-500 */
+      box-shadow: 0 0 0 1px #0ea5e9;
       background-color: rgba(39, 39, 42, 0.5);
       /* zinc-800/50 */
     }
@@ -86,18 +91,18 @@
   </style>
 </head>
 
-<body class="min-h-screen bg-zinc-950 text-zinc-100 antialiased selection:bg-indigo-500/30 selection:text-indigo-200">
+<body
+  class="min-h-screen overflow-x-hidden bg-zinc-950 text-zinc-100 antialiased selection:bg-sky-500/30 selection:text-sky-200">
   <!-- Navbar Premium -->
   <header
     class="fixed top-0 z-50 w-full border-b border-zinc-800/50 bg-zinc-950/80 backdrop-blur-xl supports-[backdrop-filter]:bg-zinc-950/60">
-    <div class="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
+    <div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8">
       <!-- Brand -->
       <a href="{% url 'index' %}" class="group flex items-center gap-3 transition-opacity hover:opacity-90">
         <div
-          class="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-tr from-indigo-600 to-purple-600 shadow-lg shadow-indigo-500/20 ring-1 ring-white/10 transition-transform group-hover:scale-105">
-          <span class="text-lg font-bold text-white">W</span>
+          class="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-tr from-sky-500 to-blue-600 shadow-lg shadow-sky-500/20 ring-1 ring-white/10 transition-transform group-hover:scale-105">
         </div>
-        <span class="text-xl font-bold tracking-tight text-white">The Wrap Lab</span>
+        <span class="text-lg font-bold tracking-tight text-white">The Wrap Lab</span>
       </a>
 
       <!-- Navigation Desktop -->
@@ -186,10 +191,9 @@
       menu.classList.toggle('hidden');
     });
   </script>
-  </header>
 
   <!-- Main Content -->
-  <main class="mx-auto max-w-7xl px-4 py-10 pt-28 sm:px-6 lg:px-8">
+  <main class="mx-auto max-w-7xl px-4 pb-10 pt-24 sm:px-6 lg:px-8 lg:pt-28">
     {% if messages %}
     <div class="mb-8 flex flex-col gap-2">
       {% for message in messages %}

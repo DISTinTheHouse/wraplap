@@ -30,7 +30,7 @@
     </div>
     <form method="get">
       <input
-        class="w-full rounded-2xl border border-zinc-800 bg-zinc-900/50 py-4 pl-12 pr-4 text-white placeholder-zinc-500 shadow-sm backdrop-blur-sm transition focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
+        class="w-full rounded-2xl border border-zinc-800 bg-zinc-900/50 py-4 pl-12 pr-4 text-white placeholder-zinc-500 shadow-sm backdrop-blur-sm transition focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500"
         name="q" value="{{ q }}" placeholder="Buscar por folio, cliente, vehículo, matrícula o estatus..."
         autocomplete="off" />
     </form>
@@ -38,7 +38,7 @@
 
   <div class="grid gap-6 md:gap-8 lg:grid-cols-3">
     <!-- Main Content: Orders -->
-    <div class="flex flex-col gap-6 md:gap-8 lg:col-span-2">
+    <div class="flex min-w-0 flex-col gap-6 md:gap-8 lg:col-span-2">
 
       <!-- Activas -->
       <div class="space-y-4">
@@ -65,7 +65,7 @@
                 {% for o in activas %}
                 <tr class="group transition hover:bg-zinc-800/50">
                   <td class="px-6 py-4">
-                    <a class="font-semibold text-white hover:text-indigo-400 hover:underline"
+                    <a class="font-semibold text-white hover:text-sky-400 hover:underline"
                       href="{% url 'orden_detalle' pk=o.pk %}">
                       {{ o.folio }}
                     </a>
@@ -90,7 +90,7 @@
                       {% elif o.estatus == 'RECIBIDO' %}
                       <span class="h-1.5 w-1.5 rounded-full bg-zinc-500"></span>
                       {% else %}
-                      <span class="h-1.5 w-1.5 rounded-full bg-indigo-500 animate-pulse"></span>
+                      <span class="h-1.5 w-1.5 rounded-full bg-sky-500 animate-pulse"></span>
                       {% endif %}
                       <span class="text-zinc-300">{{ o.get_estatus_display }}</span>
                     </div>
@@ -126,14 +126,14 @@
         <div class="md:hidden space-y-4">
           {% for o in entregadas %}
           <div class="rounded-2xl border border-zinc-800 bg-zinc-900/50 p-5 shadow-sm backdrop-blur-sm opacity-75">
-            <div class="flex items-center justify-between mb-2">
-              <a href="{% url 'orden_detalle' pk=o.pk %}" class="font-medium text-zinc-300 hover:text-white">
+            <div class="flex items-center justify-between mb-2 gap-2">
+              <a href="{% url 'orden_detalle' pk=o.pk %}" class="font-medium text-zinc-300 hover:text-white truncate">
                 {{ o.folio }}
               </a>
-              <span class="text-xs text-zinc-500">{{ o.actualizado_en|date:"d M Y" }}</span>
+              <span class="shrink-0 text-xs text-zinc-500">{{ o.actualizado_en|date:"d M Y" }}</span>
             </div>
             <div class="mb-3">
-              <p class="text-white">{{ o.vehiculo_marca }} {{ o.vehiculo_modelo }}</p>
+              <p class="text-white break-words">{{ o.vehiculo_marca }} {{ o.vehiculo_modelo }}</p>
               <p class="text-xs text-zinc-500">{{ o.get_servicio_display }}</p>
             </div>
             <div class="flex justify-end border-t border-zinc-800/50 pt-2">
@@ -189,7 +189,7 @@
     </div>
 
     <!-- Sidebar: Citas -->
-    <div class="flex flex-col gap-6">
+    <div class="flex min-w-0 flex-col gap-6">
       <div class="flex items-center justify-between">
         <h2 class="text-lg font-semibold text-white">Próximas Citas</h2>
         <a class="rounded-lg border border-zinc-700 bg-zinc-800 px-3 py-1.5 text-xs font-medium text-zinc-300 transition hover:bg-zinc-700 hover:text-white"
@@ -203,13 +203,13 @@
         <div
           class="group relative overflow-hidden rounded-2xl border border-zinc-800 bg-zinc-900/50 p-5 transition hover:border-zinc-700 hover:bg-zinc-900">
           <div
-            class="absolute right-0 top-0 h-16 w-16 -translate-y-8 translate-x-8 rounded-full bg-indigo-500/10 blur-xl transition group-hover:bg-indigo-500/20">
+            class="absolute right-0 top-0 h-16 w-16 -translate-y-8 translate-x-8 rounded-full bg-sky-500/10 blur-xl transition group-hover:bg-sky-500/20">
           </div>
 
           <div class="relative z-10">
             <div class="flex justify-between items-start gap-3">
               <div>
-                <h3 class="font-semibold text-white group-hover:text-indigo-300">{{ cita.cliente_nombre }}</h3>
+                <h3 class="font-semibold text-white group-hover:text-sky-300">{{ cita.cliente_nombre }}</h3>
                 <p class="text-sm text-zinc-400">{{ cita.get_tipo_display }}</p>
               </div>
               <div class="text-right">

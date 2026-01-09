@@ -7,8 +7,8 @@
 <div class="flex min-h-[60vh] flex-col items-center justify-center">
   <div class="relative w-full max-w-md">
     <!-- Glow effects -->
-    <div class="absolute -left-4 -top-4 h-64 w-64 rounded-full bg-indigo-500/10 blur-3xl"></div>
-    <div class="absolute -bottom-4 -right-4 h-64 w-64 rounded-full bg-purple-500/10 blur-3xl"></div>
+    <div class="absolute -left-4 -top-4 h-64 w-64 rounded-full bg-sky-500/10 blur-3xl"></div>
+    <div class="absolute -bottom-4 -right-4 h-64 w-64 rounded-full bg-blue-500/10 blur-3xl"></div>
 
     <!-- Card -->
     <div class="relative rounded-3xl border border-zinc-800 bg-zinc-900/50 p-6 shadow-2xl backdrop-blur-xl sm:p-8">
@@ -29,7 +29,7 @@
         <div class="space-y-2">
           <label class="block text-sm font-medium text-zinc-300" for="{{ form.username.id_for_label }}">Usuario</label>
           <input
-            class="w-full rounded-xl border border-zinc-800 bg-zinc-950 px-4 py-3 text-white placeholder-zinc-500 shadow-sm transition focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
+            class="w-full rounded-xl border border-zinc-800 bg-zinc-950 px-4 py-3 text-white placeholder-zinc-500 shadow-sm transition focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500"
             id="{{ form.username.id_for_label }}" name="{{ form.username.html_name }}" type="text"
             autocomplete="username" placeholder="admin" required />
         </div>
@@ -38,7 +38,7 @@
           <label class="block text-sm font-medium text-zinc-300"
             for="{{ form.password.id_for_label }}">Contraseña</label>
           <input
-            class="w-full rounded-xl border border-zinc-800 bg-zinc-950 px-4 py-3 text-white placeholder-zinc-500 shadow-sm transition focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
+            class="w-full rounded-xl border border-zinc-800 bg-zinc-950 px-4 py-3 text-white placeholder-zinc-500 shadow-sm transition focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500"
             id="{{ form.password.id_for_label }}" name="{{ form.password.html_name }}" type="password"
             autocomplete="current-password" placeholder="••••••••" required />
         </div>

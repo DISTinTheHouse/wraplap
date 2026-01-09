@@ -5,8 +5,8 @@
 {% block content %}
 <div class="relative mx-auto w-full max-w-5xl">
   <!-- Glow Effects -->
-  <div class="absolute -left-20 -top-20 h-64 w-64 rounded-full bg-indigo-500/10 blur-[100px]"></div>
-  <div class="absolute -bottom-20 -right-20 h-64 w-64 rounded-full bg-purple-500/10 blur-[100px]"></div>
+  <div class="absolute -left-20 -top-20 h-64 w-64 rounded-full bg-sky-500/10 blur-[100px]"></div>
+  <div class="absolute -bottom-20 -right-20 h-64 w-64 rounded-full bg-blue-500/10 blur-[100px]"></div>
 
   <div class="relative flex flex-col gap-8">
     <!-- Header & Actions -->
@@ -33,10 +33,10 @@
 
     <div class="grid gap-6 lg:grid-cols-3">
       <!-- Left Column: Order Info -->
-      <div class="lg:col-span-2 flex flex-col gap-6">
+      <div class="flex min-w-0 flex-col gap-6 lg:col-span-2">
         <!-- Main Info Card -->
         <section class="overflow-hidden rounded-3xl border border-zinc-800 bg-zinc-900/50 shadow-2xl backdrop-blur-xl">
-          <div class="h-1 w-full bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500"></div>
+          <div class="h-1 w-full bg-gradient-to-r from-sky-500 via-blue-500 to-sky-600"></div>
           <div class="p-6 sm:p-8">
             <div class="flex flex-col gap-6">
               <div class="flex flex-wrap items-center justify-between gap-4">
@@ -51,7 +51,7 @@
               </div>
 
               <div>
-                <h1 class="text-3xl font-bold tracking-tight text-white sm:text-4xl">
+                <h1 class="break-words text-3xl font-bold tracking-tight text-white sm:text-4xl">
                   {{ orden.vehiculo_marca }} {{ orden.vehiculo_modelo }}
                 </h1>
                 <div class="mt-2 flex flex-wrap items-center gap-x-4 gap-y-2 text-lg text-zinc-400">
@@ -68,11 +68,11 @@
               <div class="grid gap-4 sm:grid-cols-2">
                 <div class="rounded-2xl border border-zinc-800 bg-zinc-900/50 p-4">
                   <div class="text-xs font-medium uppercase tracking-wider text-zinc-500">Cliente</div>
-                  <div class="mt-1 font-medium text-white">{{ orden.cliente_nombre }}</div>
+                  <div class="mt-1 break-words font-medium text-white">{{ orden.cliente_nombre }}</div>
                 </div>
                 <div class="rounded-2xl border border-zinc-800 bg-zinc-900/50 p-4">
                   <div class="text-xs font-medium uppercase tracking-wider text-zinc-500">Servicio</div>
-                  <div class="mt-1 font-medium text-white">{{ orden.get_servicio_display }}</div>
+                  <div class="mt-1 break-words font-medium text-white">{{ orden.get_servicio_display }}</div>
                 </div>
               </div>
             </div>
@@ -122,15 +122,14 @@
       </div>
 
       <!-- Right Column: Status & History -->
-      <div class="flex flex-col gap-6">
+      <div class="flex min-w-0 flex-col gap-6">
         <!-- Current Status Card -->
         <div class="rounded-3xl border border-zinc-800 bg-zinc-900/50 p-5 sm:p-6 shadow-xl backdrop-blur-xl">
           <div class="text-xs font-medium uppercase tracking-wider text-zinc-500">Estatus Actual</div>
           <div class="mt-2 flex items-center gap-3">
             <div class="relative flex h-3 w-3">
-              <span
-                class="absolute inline-flex h-full w-full animate-ping rounded-full bg-indigo-400 opacity-75"></span>
-              <span class="relative inline-flex h-3 w-3 rounded-full bg-indigo-500"></span>
+              <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-sky-400 opacity-75"></span>
+              <span class="relative inline-flex h-3 w-3 rounded-full bg-sky-500"></span>
             </div>
             <span class="text-xl font-bold text-white">{{ orden.get_estatus_display }}</span>
           </div>
@@ -203,9 +202,9 @@
   select:focus,
   textarea:focus,
   input[type="text"]:focus {
-    border-color: #6366f1;
-    /* indigo-500 */
-    box-shadow: 0 0 0 1px #6366f1;
+    border-color: #0ea5e9;
+    /* sky-500 */
+    box-shadow: 0 0 0 1px #0ea5e9;
   }
 
   /* Custom Scrollbar for textarea if needed */
