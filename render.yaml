@@ -3,7 +3,7 @@ services:
     name: wraplab
     runtime: python
     buildCommand: "pip install -r requirements.txt && python manage.py collectstatic --no-input && python manage.py migrate --noinput"
-    startCommand: "gunicorn wraplab.wsgi:application --workers 3 --timeout 60 --log-level info"
+    startCommand: "gunicorn wraplab.wsgi:application --bind 0.0.0.0:$PORT --workers 3 --timeout 60"
     envVars:
       - key: SECRET_KEY
         generateValue: true
