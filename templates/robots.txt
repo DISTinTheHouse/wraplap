@@ -1,0 +1,13 @@
+User-agent: *
+Disallow: /admin/
+Disallow: /dashboard/
+Disallow: /login/
+Disallow: /logout/
+Allow: /
+
+# Block specific aggressive bots if needed (optional examples)
+# User-agent: AhrefsBot
+# Disallow: /
+
+# Sitemap (optional, uncomment if you have one)
+# Sitemap: https://www.thewraplab.com/sitemap.xml

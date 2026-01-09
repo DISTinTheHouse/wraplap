@@ -1,0 +1,20 @@
+# -- Tabla: pedidos --
+# CREATE TABLE pedidos (
+#     id INT AUTO_INCREMENT PRIMARY KEY,
+#     folio VARCHAR(20) UNIQUE NOT NULL, -- Ej: WRAP-2024-001
+#     cliente_nombre VARCHAR(100) NOT NULL,
+#     cliente_telefono VARCHAR(20) NOT NULL,
+#     cliente_email VARCHAR(100),
+#     estatus VARCHAR(50) DEFAULT 'Pendiente', -- Ej: "En revisión", "Listo"
+#     fecha_creacion DATETIME DEFAULT NOW(),
+#     fecha_actualizacion DATETIME DEFAULT NOW(),
+#     fotos JSON, -- Array de URLs o rutas de fotos (ej: ["https://ejemplo.com/foto1.jpg"])
+#     observaciones TEXT
+# );
+
+# Cloudinary
+
+# Cliente puede ver en tiempo real el progreso
+# Reduce llamadas al taller
+# Mejora la experiencia del cliente
+# Fácil de mantener y escalar

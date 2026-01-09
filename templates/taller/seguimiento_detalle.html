@@ -1,0 +1,145 @@
+{% extends "taller/base.html" %}
+
+{% block title %}Wrap Lab | Seguimiento {{ orden.folio }}{% endblock %}
+
+{% block content %}
+<div class="relative mx-auto w-full max-w-4xl">
+  <!-- Glow Effects -->
+  <div class="absolute -left-20 -top-20 h-64 w-64 rounded-full bg-indigo-500/10 blur-[100px]"></div>
+  <div class="absolute -bottom-20 -right-20 h-64 w-64 rounded-full bg-purple-500/10 blur-[100px]"></div>
+
+  <div class="relative flex flex-col gap-6">
+    <!-- Header Card -->
+    <section class="overflow-hidden rounded-3xl border border-zinc-800 bg-zinc-900/50 shadow-2xl backdrop-blur-xl">
+      <!-- Top Bar with Gradient -->
+      <div class="h-1 w-full bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500"></div>
+
+      <div class="p-6 sm:p-10">
+        <div class="flex flex-col gap-10">
+          <!-- Header Info -->
+          <div class="flex flex-col justify-between gap-6 sm:flex-row sm:items-start">
+            <div>
+              <div class="flex flex-wrap items-center gap-3">
+                <span
+                  class="inline-flex items-center rounded-full border border-zinc-700 bg-zinc-800/50 px-3 py-1 text-xs font-medium text-zinc-300 backdrop-blur-sm">
+                  Folio #{{ orden.folio }}
+                </span>
+                <span class="text-xs text-zinc-500">
+                  Actualizado {{ orden.actualizado_en|date:"d M, H:i" }}
+                </span>
+              </div>
+              <h1 class="mt-4 text-3xl font-bold tracking-tight text-white sm:text-4xl">
+                {{ orden.vehiculo_marca }} {{ orden.vehiculo_modelo }}
+              </h1>
+              <div class="mt-3 flex items-center gap-3 text-lg text-zinc-400">
+                <span>{{ orden.vehiculo_anio }}</span>
+                <span class="h-1 w-1 rounded-full bg-zinc-700"></span>
+                <span class="text-zinc-300">{{ orden.vehiculo_color }}</span>
+              </div>
+            </div>
+
+            <div class="flex flex-col items-start gap-2 sm:items-end">
+              <div class="text-xs font-medium uppercase tracking-wider text-zinc-500">Servicio</div>
+              <div
+                class="flex items-center gap-2 rounded-xl border border-zinc-700/50 bg-zinc-800/30 px-4 py-2 backdrop-blur-sm">
+                <span class="font-semibold text-white">{{ orden.get_servicio_display }}</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Progress Tracker -->
+          <div class="relative py-4">
+            <!-- Progress Bar Background (Vertical on mobile, Horizontal on desktop) -->
+            <div
+              class="absolute left-[15px] top-4 h-[calc(100%-2rem)] w-0.5 bg-zinc-800 md:left-0 md:top-[1.15rem] md:h-0.5 md:w-full">
+            </div>
+
+            <div class="flex flex-col justify-between gap-8 md:flex-row md:gap-0">
+              {% for paso in pasos %}
+              <div class="relative z-10 flex items-center gap-4 md:flex-col md:gap-4 md:text-center">
+                <!-- Indicator Circle -->
+                <div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border-2 transition-all duration-500
+                                    {% if forloop.counter0 < idx_actual %}
+                                        border-indigo-500 bg-indigo-500 text-white shadow-[0_0_15px_rgba(99,102,241,0.5)]
+                                    {% elif forloop.counter0 == idx_actual %}
+                                        border-indigo-500 bg-zinc-950 text-indigo-500 shadow-[0_0_20px_rgba(99,102,241,0.3)] scale-110
+                                    {% else %}
+                                        border-zinc-800 bg-zinc-950 text-zinc-700
+                                    {% endif %}
+                                ">
+                  {% if forloop.counter0 < idx_actual %} <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor" stroke-width="3">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                    </svg>
+                    {% elif forloop.counter0 == idx_actual %}
+                    <div class="h-2.5 w-2.5 rounded-full bg-indigo-500 animate-pulse"></div>
+                    {% else %}
+                    <div class="h-1.5 w-1.5 rounded-full bg-zinc-800"></div>
+                    {% endif %}
+                </div>
+
+                <!-- Label -->
+                <div class="flex flex-col md:items-center">
+                  <span class="text-sm font-semibold transition-colors duration-300
+                                        {% if forloop.counter0 <= idx_actual %}text-white{% else %}text-zinc-600{% endif %}
+                                    ">
+                    {{ paso.label }}
+                  </span>
+                </div>
+              </div>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Updates Section -->
+    <section class="overflow-hidden rounded-3xl border border-zinc-800 bg-zinc-900/50 shadow-xl backdrop-blur-xl">
+      <div class="border-b border-zinc-800 bg-zinc-900/30 px-6 py-5 sm:px-8 sm:py-6">
+        <h2 class="text-lg font-semibold text-white">Bitácora de Avances</h2>
+      </div>
+
+      <div class="p-6 sm:p-8">
+        {% if avances %}
+        <div class="relative ml-3 space-y-8 border-l border-zinc-800">
+          {% for avance in avances %}
+          <div class="relative ml-8">
+            <!-- Timeline Dot -->
+            <span
+              class="absolute -left-[41px] top-1.5 flex h-4 w-4 items-center justify-center rounded-full border border-zinc-900 bg-zinc-800 ring-4 ring-zinc-950">
+              <span class="h-1.5 w-1.5 rounded-full bg-zinc-400"></span>
+            </span>
+
+            <div
+              class="group rounded-2xl border border-zinc-800 bg-zinc-900/30 p-5 transition-all hover:border-zinc-700 hover:bg-zinc-900/50">
+              <div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+                <span
+                  class="inline-flex w-fit items-center rounded-lg border border-indigo-500/20 bg-indigo-500/10 px-2.5 py-1 text-xs font-medium text-indigo-400">
+                  {{ avance.get_estatus_display }}
+                </span>
+                <time class="text-xs text-zinc-500">{{ avance.creado_en|date:"d M Y, h:i a" }}</time>
+              </div>
+              <div class="mt-3 text-sm leading-relaxed text-zinc-300">
+                {{ avance.nota|linebreaksbr }}
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+        {% else %}
+        <div class="flex flex-col items-center justify-center py-12 text-center">
+          <div class="rounded-full bg-zinc-800/50 p-4">
+            <svg class="h-6 w-6 text-zinc-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+            </svg>
+          </div>
+          <p class="mt-4 text-sm text-zinc-400">Aún no hay avances registrados para esta orden.</p>
+        </div>
+        {% endif %}
+      </div>
+    </section>
+  </div>
+</div>
+{% endblock %}

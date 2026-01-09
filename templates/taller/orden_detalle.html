@@ -1,0 +1,225 @@
+{% extends "taller/base.html" %}
+
+{% block title %}Wrap Lab | Orden {{ orden.folio }}{% endblock %}
+
+{% block content %}
+<div class="relative mx-auto w-full max-w-5xl">
+  <!-- Glow Effects -->
+  <div class="absolute -left-20 -top-20 h-64 w-64 rounded-full bg-indigo-500/10 blur-[100px]"></div>
+  <div class="absolute -bottom-20 -right-20 h-64 w-64 rounded-full bg-purple-500/10 blur-[100px]"></div>
+
+  <div class="relative flex flex-col gap-8">
+    <!-- Header & Actions -->
+    <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+      <a href="{% url 'dashboard' %}"
+        class="group flex items-center gap-2 text-sm text-zinc-400 transition-colors hover:text-white">
+        <svg class="h-4 w-4 transition-transform group-hover:-translate-x-1" fill="none" viewBox="0 0 24 24"
+          stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+        </svg>
+        Volver al Dashboard
+      </a>
+      <div class="flex gap-3">
+        <a href="{% url 'orden_editar' orden.pk %}"
+          class="flex items-center gap-2 rounded-xl border border-zinc-700 bg-zinc-800/50 px-4 py-2 text-sm font-medium text-zinc-300 transition-all hover:bg-zinc-700/50 hover:text-white backdrop-blur-sm">
+          <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+          </svg>
+          Editar Orden
+        </a>
+      </div>
+    </div>
+
+    <div class="grid gap-6 lg:grid-cols-3">
+      <!-- Left Column: Order Info -->
+      <div class="lg:col-span-2 flex flex-col gap-6">
+        <!-- Main Info Card -->
+        <section class="overflow-hidden rounded-3xl border border-zinc-800 bg-zinc-900/50 shadow-2xl backdrop-blur-xl">
+          <div class="h-1 w-full bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500"></div>
+          <div class="p-6 sm:p-8">
+            <div class="flex flex-col gap-6">
+              <div class="flex flex-wrap items-center justify-between gap-4">
+                <span
+                  class="inline-flex items-center rounded-full border border-zinc-700 bg-zinc-800/50 px-3 py-1 text-xs font-medium text-zinc-300">
+                  Folio #{{ orden.folio }}
+                </span>
+                <span class="flex items-center gap-2 text-xs text-zinc-500">
+                  <span class="h-1.5 w-1.5 rounded-full bg-emerald-500"></span>
+                  Creado {{ orden.creado_en|date:"d M Y" }}
+                </span>
+              </div>
+
+              <div>
+                <h1 class="text-3xl font-bold tracking-tight text-white sm:text-4xl">
+                  {{ orden.vehiculo_marca }} {{ orden.vehiculo_modelo }}
+                </h1>
+                <div class="mt-2 flex flex-wrap items-center gap-x-4 gap-y-2 text-lg text-zinc-400">
+                  <span>{{ orden.vehiculo_anio }}</span>
+                  <span class="h-1 w-1 rounded-full bg-zinc-700"></span>
+                  <span>{{ orden.vehiculo_color }}</span>
+                  {% if orden.vehiculo_matricula %}
+                  <span class="h-1 w-1 rounded-full bg-zinc-700"></span>
+                  <span class="font-mono text-zinc-500">{{ orden.vehiculo_matricula }}</span>
+                  {% endif %}
+                </div>
+              </div>
+
+              <div class="grid gap-4 sm:grid-cols-2">
+                <div class="rounded-2xl border border-zinc-800 bg-zinc-900/50 p-4">
+                  <div class="text-xs font-medium uppercase tracking-wider text-zinc-500">Cliente</div>
+                  <div class="mt-1 font-medium text-white">{{ orden.cliente_nombre }}</div>
+                </div>
+                <div class="rounded-2xl border border-zinc-800 bg-zinc-900/50 p-4">
+                  <div class="text-xs font-medium uppercase tracking-wider text-zinc-500">Servicio</div>
+                  <div class="mt-1 font-medium text-white">{{ orden.get_servicio_display }}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Update Form -->
+        <section class="rounded-3xl border border-zinc-800 bg-zinc-900/50 p-5 shadow-xl backdrop-blur-xl sm:p-8">
+          <h2 class="text-lg font-semibold text-white">Actualizar Progreso</h2>
+          <form method="post" class="mt-6 flex flex-col gap-4">
+            {% csrf_token %}
+
+            <div class="grid gap-4 sm:grid-cols-2">
+              <div class="space-y-2">
+                <label class="text-xs font-medium text-zinc-400" for="{{ form.estatus.id_for_label }}">Nuevo
+                  Estatus</label>
+                <div class="relative">
+                  {{ form.estatus }}
+                  <!-- Custom select arrow pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 -->
+                </div>
+                {% if form.estatus.errors %}
+                <div class="text-xs text-red-400">{{ form.estatus.errors }}</div>
+                {% endif %}
+              </div>
+            </div>
+
+            <div class="space-y-2">
+              <label class="text-xs font-medium text-zinc-400" for="{{ form.nota.id_for_label }}">Notas del
+                Avance</label>
+              {{ form.nota }}
+              {% if form.nota.errors %}
+              <div class="text-xs text-red-400">{{ form.nota.errors }}</div>
+              {% endif %}
+            </div>
+
+            <div class="pt-2">
+              <button type="submit"
+                class="inline-flex w-full items-center justify-center rounded-xl bg-white px-6 py-3.5 sm:py-3 text-sm font-semibold text-zinc-950 shadow-lg shadow-zinc-900/20 transition-all hover:bg-zinc-200 hover:shadow-xl sm:w-auto">
+                <svg class="mr-2 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                </svg>
+                Guardar Avance
+              </button>
+            </div>
+          </form>
+        </section>
+      </div>
+
+      <!-- Right Column: Status & History -->
+      <div class="flex flex-col gap-6">
+        <!-- Current Status Card -->
+        <div class="rounded-3xl border border-zinc-800 bg-zinc-900/50 p-5 sm:p-6 shadow-xl backdrop-blur-xl">
+          <div class="text-xs font-medium uppercase tracking-wider text-zinc-500">Estatus Actual</div>
+          <div class="mt-2 flex items-center gap-3">
+            <div class="relative flex h-3 w-3">
+              <span
+                class="absolute inline-flex h-full w-full animate-ping rounded-full bg-indigo-400 opacity-75"></span>
+              <span class="relative inline-flex h-3 w-3 rounded-full bg-indigo-500"></span>
+            </div>
+            <span class="text-xl font-bold text-white">{{ orden.get_estatus_display }}</span>
+          </div>
+
+          <div class="mt-6 space-y-4 border-t border-zinc-800 pt-6">
+            <div>
+              <div class="mb-2 text-xs font-medium text-zinc-500">Enlace para Cliente</div>
+              <div
+                class="group relative flex items-center gap-2 rounded-xl border border-zinc-800 bg-zinc-950/50 p-3 transition-colors hover:border-zinc-700">
+                <div class="truncate text-xs text-zinc-400 select-all flex-1">{{ cliente_url }}</div>
+                <a href="{{ cliente_url }}" target="_blank"
+                  class="ml-2 flex-shrink-0 rounded-lg bg-zinc-800 p-2 sm:p-1.5 text-zinc-400 transition-colors hover:bg-zinc-700 hover:text-white">
+                  <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                  </svg>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- History Timeline -->
+        <section class="flex-1 rounded-3xl border border-zinc-800 bg-zinc-900/50 p-5 sm:p-6 shadow-xl backdrop-blur-xl">
+          <h3 class="mb-6 font-semibold text-white">Historial</h3>
+
+          {% if avances %}
+          <div class="relative ml-2 space-y-8 border-l border-zinc-800">
+            {% for avance in avances %}
+            <div class="relative ml-6">
+              <span
+                class="absolute -left-[31px] top-1.5 h-2.5 w-2.5 rounded-full border border-zinc-900 bg-zinc-600 ring-4 ring-zinc-900/50"></span>
+
+              <div class="flex flex-col gap-1">
+                <span class="text-sm font-medium text-white">{{ avance.get_estatus_display }}</span>
+                <span class="text-xs text-zinc-500">{{ avance.creado_en|date:"d M H:i" }}</span>
+                <p class="mt-1 text-sm text-zinc-400">{{ avance.nota }}</p>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+          {% else %}
+          <div class="text-center text-sm text-zinc-500">Sin historial</div>
+          {% endif %}
+        </section>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  /* Input Styles Override */
+  select,
+  textarea,
+  input[type="text"] {
+    width: 100%;
+    background-color: rgba(24, 24, 27, 0.5);
+    /* zinc-950/50 */
+    border: 1px solid #27272a;
+    /* zinc-800 */
+    border-radius: 0.75rem;
+    /* rounded-xl */
+    padding: 0.75rem 1rem;
+    color: white;
+    font-size: 0.875rem;
+    transition: all 0.2s;
+    outline: none;
+  }
+
+  select:focus,
+  textarea:focus,
+  input[type="text"]:focus {
+    border-color: #6366f1;
+    /* indigo-500 */
+    box-shadow: 0 0 0 1px #6366f1;
+  }
+
+  /* Custom Scrollbar for textarea if needed */
+  textarea::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  textarea::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  textarea::-webkit-scrollbar-thumb {
+    background-color: #3f3f46;
+    border-radius: 4px;
+  }
+</style>
+{% endblock %}
