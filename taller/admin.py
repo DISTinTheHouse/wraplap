@@ -5,10 +5,10 @@ from .models import Avance, OrdenServicio
 
 @admin.register(OrdenServicio)
 class OrdenServicioAdmin(admin.ModelAdmin):
-    list_display = ('folio', 'cliente_nombre', 'vehiculo_marca', 'vehiculo_modelo', 'servicio', 'estatus', 'actualizado_en')
+    list_display = ('folio', 'cliente_nombre', 'vehiculo_marca', 'vehiculo_modelo', 'servicio', 'estatus', 'saldo_pendiente', 'actualizado_en')
     list_filter = ('servicio', 'estatus')
     search_fields = ('folio', 'cliente_nombre', 'vehiculo_marca', 'vehiculo_modelo')
-    readonly_fields = ('folio', 'creado_en', 'actualizado_en')
+    readonly_fields = ('folio', 'creado_en', 'actualizado_en', 'saldo_pendiente')
 
 
 @admin.register(Avance)

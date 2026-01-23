@@ -9,7 +9,7 @@ from django.urls import reverse
 
 from django.utils import timezone
 
-from .forms import AvanceForm, CitaForm, OrdenServicioForm
+from .forms import AvanceForm, CitaForm, OrdenServicioForm, CostosForm
 from .models import Avance, Cita, OrdenServicio
 
 
@@ -20,8 +20,7 @@ def index(request: HttpRequest) -> HttpResponse:
 def folio_lookup(request: HttpRequest) -> HttpResponse:
     folio = (request.GET.get('folio') or '').strip().upper()
     if not folio:
-        messages.error(request, 'Ingresa un folio para buscar.')
-        return redirect('index')
+        return render(request, 'taller/seguimiento.html')
     return redirect('seguimiento_detalle', folio=folio)
 
 
@@ -29,10 +28,16 @@ def seguimiento_detalle(request: HttpRequest, folio: str) -> HttpResponse:
     orden = get_object_or_404(OrdenServicio, folio=folio.upper())
     avances = orden.avances.all()
     
-    # Definir pasos para el tracker visual (primeros 5 estatus)
+    # Definir pasos para el tracker visual
     # choices es una lista de tuplas (valor, etiqueta)
     pasos_visuales = []
-    target_steps = ['RECIBIDO', 'PREPARACION', 'EN_PROCESO', 'CONTROL_CALIDAD', 'LISTO']
+    target_steps = [
+        OrdenServicio.Estatus.EN_RECEPCION,
+        OrdenServicio.Estatus.EN_PREPARACION,
+        OrdenServicio.Estatus.EN_PROCESO,
+        OrdenServicio.Estatus.PREPARANDO_ENTREGA,
+        OrdenServicio.Estatus.TRABAJO_TERMINADO,
+    ]
     
     # Creamos un dict para buscar labels rápido
     labels_map = dict(OrdenServicio.Estatus.choices)
@@ -44,7 +49,7 @@ def seguimiento_detalle(request: HttpRequest, folio: str) -> HttpResponse:
         })
     
     # Mapeo de orden para saber qué índice tiene el estatus actual
-    orden_estatus = target_steps + ['ENTREGADO']
+    orden_estatus = target_steps
     
     try:
         idx_actual = orden_estatus.index(orden.estatus)
@@ -89,8 +94,8 @@ def dashboard(request: HttpRequest) -> HttpResponse:
             | Q(cliente_nombre__icontains=q)
         )
     
-    activas = qs.exclude(estatus=OrdenServicio.Estatus.ENTREGADO)
-    entregadas = qs.filter(estatus=OrdenServicio.Estatus.ENTREGADO)
+    activas = qs.exclude(estatus=OrdenServicio.Estatus.TRABAJO_TERMINADO)
+    entregadas = qs.filter(estatus=OrdenServicio.Estatus.TRABAJO_TERMINADO)
     
     # Citas
     citas_proximas = Cita.objects.filter(fecha__gte=timezone.now(), completada=False).order_by('fecha')
@@ -133,23 +138,40 @@ def orden_editar(request: HttpRequest, pk: int) -> HttpResponse:
 @user_passes_test(_superuser_required)
 def orden_detalle(request: HttpRequest, pk: int) -> HttpResponse:
     orden = get_object_or_404(OrdenServicio, pk=pk)
+    
+    form = AvanceForm(initial={'estatus': orden.estatus})
+    costos_form = CostosForm(instance=orden)
+
     if request.method == 'POST':
-        form = AvanceForm(request.POST)
-        if form.is_valid():
-            avance: Avance = form.save(commit=False)
-            avance.orden = orden
-            avance.save()
-            orden.estatus = avance.estatus
-            orden.save(update_fields=['estatus', 'actualizado_en'])
-            messages.success(request, 'Avance registrado.')
-            return redirect('orden_detalle', pk=orden.pk)
-    else:
-        form = AvanceForm(initial={'estatus': orden.estatus})
+        if 'submit_avance' in request.POST:
+            form = AvanceForm(request.POST)
+            if form.is_valid():
+                avance: Avance = form.save(commit=False)
+                avance.orden = orden
+                avance.save()
+                orden.estatus = avance.estatus
+                orden.save(update_fields=['estatus', 'actualizado_en'])
+                messages.success(request, 'Avance registrado.')
+                return redirect('orden_detalle', pk=orden.pk)
+        
+        elif 'submit_costos' in request.POST:
+            costos_form = CostosForm(request.POST, instance=orden)
+            if costos_form.is_valid():
+                costos_form.save()
+                messages.success(request, 'Costos actualizados.')
+                return redirect('orden_detalle', pk=orden.pk)
+
     avances = orden.avances.all()
     return render(
         request,
         'taller/orden_detalle.html',
-        {'orden': orden, 'form': form, 'avances': avances, 'cliente_url': _cliente_url(request, orden)},
+        {
+            'orden': orden, 
+            'form': form, 
+            'costos_form': costos_form,
+            'avances': avances, 
+            'cliente_url': _cliente_url(request, orden)
+        },
     )
 
 

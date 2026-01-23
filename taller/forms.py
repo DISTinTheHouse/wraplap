@@ -15,6 +15,8 @@ class OrdenServicioForm(forms.ModelForm):
             'vehiculo_color',
             'servicio',
             'estatus',
+            'costo_total',
+            'monto_pagado',
             'notas',
         ]
         widgets = {
@@ -26,6 +28,8 @@ class OrdenServicioForm(forms.ModelForm):
             'vehiculo_color': forms.TextInput(),
             'servicio': forms.Select(),
             'estatus': forms.Select(),
+            'costo_total': forms.NumberInput(),
+            'monto_pagado': forms.NumberInput(),
             'notas': forms.Textarea(attrs={'rows': 4}),
         }
 
@@ -66,3 +70,20 @@ class AvanceForm(forms.ModelForm):
         base = 'w-full rounded-xl border border-zinc-800 bg-zinc-950 px-4 py-3 text-white placeholder-zinc-500 shadow-sm transition focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500'
         for field in self.fields.values():
             field.widget.attrs['class'] = base
+
+
+class CostosForm(forms.ModelForm):
+    class Meta:
+        model = OrdenServicio
+        fields = ['costo_total', 'monto_pagado']
+        widgets = {
+            'costo_total': forms.NumberInput(),
+            'monto_pagado': forms.NumberInput(),
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        base = 'w-full rounded-xl border border-zinc-800 bg-zinc-950 px-4 py-3 text-white placeholder-zinc-500 shadow-sm transition focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500'
+        for field in self.fields.values():
+            field.widget.attrs['class'] = base
+

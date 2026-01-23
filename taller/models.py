@@ -9,12 +9,11 @@ class OrdenServicio(models.Model):
         WRAP_Y_PPF = 'WRAP_PPF', 'Wrap + PPF'
 
     class Estatus(models.TextChoices):
-        RECIBIDO = 'RECIBIDO', 'Recibido'
-        PREPARACION = 'PREPARACION', 'Preparación'
-        EN_PROCESO = 'EN_PROCESO', 'En proceso'
-        CONTROL_CALIDAD = 'CONTROL_CALIDAD', 'Control de calidad'
-        LISTO = 'LISTO', 'Listo'
-        ENTREGADO = 'ENTREGADO', 'Entregado'
+        EN_RECEPCION = 'EN_RECEPCION', 'En Recepción'
+        EN_PREPARACION = 'EN_PREPARACION', 'En Preparación'
+        EN_PROCESO = 'EN_PROCESO', 'En Proceso'
+        PREPARANDO_ENTREGA = 'PREPARANDO_ENTREGA', 'Preparando Entrega'
+        TRABAJO_TERMINADO = 'TRABAJO_TERMINADO', 'Trabajo Terminado'
 
     folio = models.CharField(max_length=12, unique=True, blank=True, db_index=True)
     cliente_nombre = models.CharField(max_length=200)
@@ -24,13 +23,19 @@ class OrdenServicio(models.Model):
     vehiculo_anio = models.PositiveIntegerField()
     vehiculo_color = models.CharField(max_length=80)
     servicio = models.CharField(max_length=12, choices=Servicio.choices, default=Servicio.WRAP)
-    estatus = models.CharField(max_length=20, choices=Estatus.choices, default=Estatus.RECIBIDO)
+    estatus = models.CharField(max_length=20, choices=Estatus.choices, default=Estatus.EN_RECEPCION)
+    costo_total = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+    monto_pagado = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     notas = models.TextField(blank=True)
     creado_en = models.DateTimeField(auto_now_add=True)
     actualizado_en = models.DateTimeField(auto_now=True)
 
     def __str__(self) -> str:
         return f'{self.folio} - {self.vehiculo_marca} {self.vehiculo_modelo}'
+
+    @property
+    def saldo_pendiente(self):
+        return self.costo_total - self.monto_pagado
 
     def _generar_folio_unico(self) -> str:
         while True:

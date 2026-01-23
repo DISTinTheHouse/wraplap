@@ -14,7 +14,7 @@ class OrdenServicioTests(TestCase):
             vehiculo_anio=2024,
             vehiculo_color='Rojo',
             servicio=OrdenServicio.Servicio.WRAP,
-            estatus=OrdenServicio.Estatus.RECIBIDO,
+            estatus=OrdenServicio.Estatus.EN_RECEPCION,
         )
         self.assertTrue(orden.folio)
 
