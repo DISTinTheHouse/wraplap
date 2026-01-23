@@ -1,298 +1,613 @@
-{% extends "taller/base.html" %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
 
-{% block title %}Wrap Lab | Premium Car Wrapping & PPF{% endblock %}
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Lab Wrap</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            zinc: {
+              950: '#09090b',
+              900: '#18181b',
+              800: '#27272a',
+            },
+            brand: {
+              blue: '#0050E6', // Strong Blue
+            }
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+          },
+          animation: {
+            'fade-in-up': 'fadeInUp 1s ease-out forwards',
+            'slide-in': 'slideIn 1s ease-out forwards',
+          },
+          keyframes: {
+            fadeInUp: {
+              '0%': { opacity: '0', transform: 'translateY(30px)' },
+              '100%': { opacity: '1', transform: 'translateY(0)' },
+            },
+            slideIn: {
+              '0%': { opacity: '0', transform: 'translateX(-30px)' },
+              '100%': { opacity: '1', transform: 'translateX(0)' },
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&display=swap');
 
-{% block content %}
-<!-- Hero Section -->
-<div
-  class="relative overflow-hidden rounded-3xl border border-zinc-800 bg-zinc-900/50 px-6 py-24 text-center shadow-2xl sm:px-16 backdrop-blur-sm">
-  <div class="relative z-10 mx-auto max-w-3xl">
-    <span
-      class="mb-4 inline-block rounded-full bg-sky-500/10 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-sky-400 ring-1 ring-inset ring-sky-500/20">
-      The Wrap Lab
-    </span>
-    <h1 class="text-4xl font-bold tracking-tight text-white sm:text-6xl">
-      Protección y Estilo <br class="hidden sm:block" />
-      <span class="text-zinc-400">Sin Compromisos</span>
-    </h1>
-    <p class="mx-auto mt-6 max-w-xl text-lg text-zinc-400">
-      Especialistas en transformación vehicular de alta gama. Wrapping premium y Paint Protection Film (PPF) con los más
-      altos estándares de calidad.
-    </p>
+    /* Custom scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
 
-    <!-- Buscador de Folio -->
-    <div class="mx-auto mt-10 max-w-lg">
-      <div class="rounded-2xl border border-zinc-700 bg-zinc-950 p-2 shadow-xl ring-4 ring-zinc-900/50">
-        <form class="flex flex-col gap-2 sm:flex-row" action="{% url 'folio_lookup' %}" method="get">
-          <input
-            class="flex-1 rounded-xl border border-transparent bg-zinc-900 px-4 py-3 text-center text-zinc-100 placeholder:text-zinc-500 focus:border-zinc-700 focus:bg-zinc-950 focus:outline-none sm:text-left"
-            name="folio" placeholder="Ingresa tu folio de seguimiento" autocomplete="off" required />
-          <button
-            class="rounded-xl bg-white px-6 py-3 font-semibold text-zinc-950 transition hover:bg-zinc-200 shadow-lg shadow-zinc-900/20"
-            type="submit">
-            Rastrear
-          </button>
-        </form>
-      </div>
-      <p class="mt-4 flex items-center justify-center gap-2 text-xs text-zinc-500">
-        <svg class="h-4 w-4 text-sky-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-            d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-        </svg>
-        <span>Usa el folio de tu orden para ver el progreso en tiempo real.</span>
-      </p>
-    </div>
-  </div>
+    ::-webkit-scrollbar-track {
+      background: #09090b;
+    }
 
-  <!-- Decorative background elements -->
-  <div class="absolute -left-4 -top-4 h-64 w-64 rounded-full bg-sky-500/10 blur-[100px]"></div>
-  <div class="absolute -bottom-4 -right-4 h-64 w-64 rounded-full bg-blue-500/10 blur-[100px]"></div>
-</div>
+    ::-webkit-scrollbar-thumb {
+      background: #27272a;
+      border-radius: 4px;
+    }
 
-<!-- Servicios Section -->
-<div class="mt-24">
-  <div class="text-center">
-    <h2 class="text-3xl font-bold tracking-tight text-white sm:text-4xl">Nuestros Servicios</h2>
-    <p class="mt-4 text-zinc-400">Soluciones personalizadas para proteger y renovar tu vehículo.</p>
-  </div>
+    ::-webkit-scrollbar-thumb:hover {
+      background: #3f3f46;
+    }
+  </style>
+</head>
 
-  <div class="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-    <!-- Card 1: Wrap -->
-    <div
-      class="group relative overflow-hidden rounded-3xl border border-zinc-800 bg-zinc-900/50 p-8 transition-all hover:-translate-y-1 hover:border-zinc-700 hover:shadow-2xl">
-      <div
-        class="absolute -right-10 -top-10 h-32 w-32 rounded-full bg-sky-500/10 blur-2xl transition group-hover:bg-sky-500/20">
-      </div>
-      <h3 class="text-xl font-semibold text-white">Full Wrap</h3>
-      <p class="mt-4 text-sm leading-relaxed text-zinc-400">
-        Cambia el color de tu auto con vinilos de alta calidad. Acabados mate, satinado, brillante o texturizado.
-        Protege la pintura original y es 100% reversible.
-      </p>
-      <ul class="mt-6 space-y-3 text-sm text-zinc-500">
-        <li class="flex items-center gap-3"><span
-            class="flex h-5 w-5 items-center justify-center rounded-full bg-sky-500/10 text-sky-500"><svg
-              class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
-            </svg></span>Más de 300 colores</li>
-        <li class="flex items-center gap-3"><span
-            class="flex h-5 w-5 items-center justify-center rounded-full bg-sky-500/10 text-sky-500"><svg
-              class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
-            </svg></span>Durabilidad 5-7 años</li>
-      </ul>
-    </div>
-
-    <!-- Card 2: PPF -->
-    <div
-      class="group relative overflow-hidden rounded-3xl border border-zinc-800 bg-zinc-900/50 p-8 transition-all hover:-translate-y-1 hover:border-zinc-700 hover:shadow-2xl">
-      <div
-        class="absolute -right-10 -top-10 h-32 w-32 rounded-full bg-blue-500/10 blur-2xl transition group-hover:bg-blue-500/20">
-      </div>
-      <h3 class="text-xl font-semibold text-white">Paint Protection Film (PPF)</h3>
-      <p class="mt-4 text-sm leading-relaxed text-zinc-400">
-        La máxima protección invisible. Película de poliuretano autorregenerable que protege contra piedras, arañazos,
-        insectos y rayos UV.
-      </p>
-      <ul class="mt-6 space-y-3 text-sm text-zinc-500">
-        <li class="flex items-center gap-3"><span
-            class="flex h-5 w-5 items-center justify-center rounded-full bg-blue-500/10 text-blue-500"><svg
-              class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
-            </svg></span>Tecnología Self-Healing</li>
-        <li class="flex items-center gap-3"><span
-            class="flex h-5 w-5 items-center justify-center rounded-full bg-purple-500/10 text-purple-500"><svg
-              class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
-            </svg></span>Acabado Gloss o Stealth</li>
-      </ul>
-    </div>
-
-    <!-- Card 3: Custom -->
-    <div
-      class="group relative overflow-hidden rounded-3xl border border-zinc-800 bg-zinc-900/50 p-8 transition-all hover:-translate-y-1 hover:border-zinc-700 hover:shadow-2xl sm:col-span-2 lg:col-span-1">
-      <div
-        class="absolute -right-10 -top-10 h-32 w-32 rounded-full bg-pink-500/10 blur-2xl transition group-hover:bg-pink-500/20">
-      </div>
-      <h3 class="text-xl font-semibold text-white">Diseño Personalizado</h3>
-      <p class="mt-4 text-sm leading-relaxed text-zinc-400">
-        Desde franjas deportivas hasta diseños completos de flotilla. Nuestro equipo de diseño crea una imagen única
-        para tu vehículo.
-      </p>
-      <ul class="mt-6 space-y-3 text-sm text-zinc-500">
-        <li class="flex items-center gap-3"><span
-            class="flex h-5 w-5 items-center justify-center rounded-full bg-pink-500/10 text-pink-500"><svg
-              class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
-            </svg></span>Renderizado previo</li>
-        <li class="flex items-center gap-3"><span
-            class="flex h-5 w-5 items-center justify-center rounded-full bg-pink-500/10 text-pink-500"><svg
-              class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
-            </svg></span>Instalación certificada</li>
-      </ul>
-    </div>
-  </div>
-</div>
-
-<!-- Proceso Section -->
-<div class="mt-24 rounded-3xl border border-zinc-800/50 bg-zinc-900/30 px-6 py-16 sm:px-12 backdrop-blur-sm">
-  <div class="mx-auto max-w-4xl">
-    <h2 class="text-center text-2xl font-bold text-white sm:text-3xl">Tu auto en manos expertas</h2>
-    <div class="mt-12 grid gap-8 sm:grid-cols-3">
-      <div class="group text-center">
-        <div
-          class="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-zinc-800 text-xl font-bold text-white shadow-lg ring-1 ring-white/5 transition-all group-hover:bg-zinc-700 group-hover:scale-110">
-          1</div>
-        <h3 class="mt-6 font-semibold text-white">Recepción y Diagnóstico</h3>
-        <p class="mt-3 text-sm leading-relaxed text-zinc-400">Inspección detallada de pintura y carrocería antes de
-          iniciar.</p>
-      </div>
-      <div class="group text-center">
-        <div
-          class="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-zinc-800 text-xl font-bold text-white shadow-lg ring-1 ring-white/5 transition-all group-hover:bg-zinc-700 group-hover:scale-110">
-          2</div>
-        <h3 class="mt-6 font-semibold text-white">Instalación Premium</h3>
-        <p class="mt-3 text-sm leading-relaxed text-zinc-400">Descontaminado, desmontaje y aplicación en ambiente
-          controlado.</p>
-      </div>
-      <div class="group text-center">
-        <div
-          class="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-zinc-800 text-xl font-bold text-white shadow-lg ring-1 ring-white/5 transition-all group-hover:bg-zinc-700 group-hover:scale-110">
-          3</div>
-        <h3 class="mt-6 font-semibold text-white">Control de Calidad</h3>
-        <p class="mt-3 text-sm leading-relaxed text-zinc-400">Revisión minuciosa y post-calentamiento para garantizar
-          adherencia.</p>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- Contacto Section -->
-<div class="mt-24">
-  <div class="rounded-3xl border border-zinc-800 bg-zinc-900/50 p-8 shadow-2xl backdrop-blur-sm sm:p-12">
-    <div class="grid gap-12 lg:grid-cols-2">
-      <!-- Contact Info -->
-      <div class="flex flex-col justify-center">
-        <span class="mb-2 text-sm font-semibold uppercase tracking-wider text-indigo-400">¿Tienes dudas?</span>
-        <h2 class="text-3xl font-bold text-white">Contáctanos</h2>
-        <p class="mt-4 text-zinc-400">
-          ¿Listo para transformar tu vehículo? Escríbenos o visítanos para una cotización personalizada.
-        </p>
-
-        <div class="mt-10 space-y-6">
-          <!-- Phone -->
-          <a href="tel:+528112345678" class="group flex items-center gap-5">
-            <div
-              class="flex h-12 w-12 items-center justify-center rounded-xl bg-zinc-800/50 text-indigo-500 ring-1 ring-white/5 transition group-hover:bg-indigo-500 group-hover:text-white group-hover:shadow-lg group-hover:shadow-indigo-500/30">
-              <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                <path stroke-linecap="round" stroke-linejoin="round"
-                  d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-              </svg>
-            </div>
-            <div>
-              <p class="text-sm font-medium text-zinc-500 group-hover:text-zinc-400">Llámanos</p>
-              <p class="text-lg font-semibold text-white group-hover:text-indigo-400">+52 (81) 1234-5678</p>
-            </div>
+<body class="bg-zinc-950 text-white font-sans antialiased">
+  <!-- Header -->
+  <header class="w-full relative z-50">
+    <!-- Top Bar -->
+    <div class="bg-black border-b border-zinc-900 text-[11px] md:text-xs text-zinc-400 py-2.5 tracking-wide">
+      <div class="container mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-2">
+        <!-- Left: Contact Info -->
+        <div class="flex flex-wrap justify-center md:justify-start gap-x-6 gap-y-2 items-center">
+          <a href="mailto:thewraplab@gmail.com" class="hover:text-white transition-colors flex items-center gap-2">
+            <i class="bi bi-envelope-fill text-brand-blue"></i>
+            <span>thewraplab@gmail.com</span>
           </a>
-
-          <!-- Email -->
-          <a href="mailto:contacto@wraplab.mx" class="group flex items-center gap-5">
-            <div
-              class="flex h-12 w-12 items-center justify-center rounded-xl bg-zinc-800/50 text-purple-500 ring-1 ring-white/5 transition group-hover:bg-purple-500 group-hover:text-white group-hover:shadow-lg group-hover:shadow-purple-500/30">
-              <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                <path stroke-linecap="round" stroke-linejoin="round"
-                  d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-              </svg>
-            </div>
-            <div>
-              <p class="text-sm font-medium text-zinc-500 group-hover:text-zinc-400">Envíanos un correo</p>
-              <p class="text-lg font-semibold text-white group-hover:text-purple-400">contacto@wraplab.mx</p>
-            </div>
-          </a>
-
-          <!-- Location -->
-          <div class="flex items-center gap-5">
-            <div
-              class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-zinc-800/50 text-pink-500 ring-1 ring-white/5">
-              <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                <path stroke-linecap="round" stroke-linejoin="round"
-                  d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                <path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-              </svg>
-            </div>
-            <div>
-              <p class="text-sm font-medium text-zinc-500">Ubicación</p>
-              <p class="text-base text-white">Av. de la Industria 123, Zona Industrial, CP 64000, Monterrey, N.L.</p>
-            </div>
+          <div class="hidden md:flex items-center gap-2">
+            <i class="bi bi-clock-fill text-brand-blue"></i>
+            <span>10.00am - 7.00pm</span>
+          </div>
+          <div class="hidden lg:flex items-center gap-2">
+            <i class="bi bi-geo-alt-fill text-brand-blue"></i>
+            <span>Av. Ignacio L Vallarta 5001, Prados Vallarta, 45020 Zapopan, Jal.</span>
           </div>
         </div>
 
-        <!-- Social Buttons -->
-        <div class="mt-10 flex gap-4">
-          <a href="#"
-            class="flex items-center gap-2 rounded-lg bg-zinc-800 px-4 py-2 text-sm font-medium text-white transition hover:bg-[#25D366] hover:text-white">
-            <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
-              <path
-                d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z" />
-            </svg>
-            WhatsApp
-          </a>
-          <a href="#"
-            class="flex items-center gap-2 rounded-lg bg-zinc-800 px-4 py-2 text-sm font-medium text-white transition hover:bg-[#E4405F] hover:text-white">
-            <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
-              <path
-                d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
-            </svg>
-            Instagram
-          </a>
+        <!-- Right: Socials -->
+        <div class="flex items-center gap-4">
+          <a href="https://www.facebook.com/profile.php?id=100063537074646" target="_blank"
+            class="hover:text-brand-blue transition-colors"><i class="bi bi-facebook"></i></a>
+          <a href="https://www.instagram.com/evolution.wraps" target="_blank"
+            class="hover:text-brand-blue transition-colors"><i class="bi bi-instagram"></i></a>
         </div>
       </div>
+    </div>
 
-      <!-- Map -->
-      <div class="relative h-[400px] overflow-hidden rounded-3xl bg-zinc-900 shadow-2xl">
-        <iframe
-          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3596.536209259253!2d-100.31611268498815!3d25.65342498368565!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8662be30db000001%3A0x8662be30db000001!2sMonterrey%2C%20N.L.!5e0!3m2!1sen!2smx!4v1650000000000!5m2!1sen!2smx"
-          width="100%" height="100%" style="border:0; filter: grayscale(100%) invert(90%);" allowfullscreen=""
-          loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+    <!-- Main Navbar -->
+    <div class="bg-black/95 backdrop-blur-sm border-b border-zinc-900/50 sticky top-0 z-50">
+      <div class="container mx-auto px-4">
+        <div class="flex items-center justify-between h-20 md:h-24">
+          <!-- Logo -->
+          <a href="/" class="flex-shrink-0 group">
+            <div class="flex flex-col leading-none">
+              <span class="font-black text-xl md:text-2xl tracking-tighter text-white">THE LAB</span>
+              <span class="font-bold text-lg md:text-xl tracking-widest text-brand-blue -mt-1">WRAP</span>
+            </div>
+          </a>
+
+          <!-- Desktop Menu -->
+          <nav class="hidden lg:flex items-center gap-10">
+            <a href="#"
+              class="text-sm font-bold tracking-[0.2em] text-brand-blue border-b-2 border-brand-blue py-1">INICIO</a>
+            <a href="/seguimiento/"
+              class="text-sm font-bold tracking-[0.2em] text-white hover:text-brand-blue transition-colors py-1 relative group">
+              TRACKER
+              <span
+                class="absolute bottom-0 left-0 w-0 h-0.5 bg-brand-blue transition-all duration-300 group-hover:w-full"></span>
+            </a>
+          </nav>
+
+          <!-- Right Side: Contact/CTA -->
+          <div class="flex items-center">
+            <!-- Whatsapp Button Box -->
+            <div class="hidden md:flex items-center pl-8 h-12 border-l border-zinc-800">
+              <a href="https://wa.me/523324465432" target="_blank" class="flex items-center gap-4 group">
+                <div
+                  class="w-10 h-10 rounded-full bg-brand-blue flex items-center justify-center text-white shadow-[0_0_15px_rgba(0,80,230,0.3)] group-hover:scale-110 group-hover:shadow-[0_0_20px_rgba(0,80,230,0.5)] transition-all duration-300">
+                  <i class="bi bi-whatsapp text-lg"></i>
+                </div>
+                <div class="text-right hidden xl:block">
+                  <div class="text-[10px] text-zinc-500 uppercase tracking-widest font-semibold">Whatsapp</div>
+                  <div class="text-base font-bold text-white group-hover:text-brand-blue transition-colors">+52 (33)
+                    2446-5432</div>
+                </div>
+              </a>
+            </div>
+
+            <!-- Mobile Menu Button -->
+            <div class="lg:hidden flex items-center gap-4 ml-4">
+              <button id="mobile-menu-btn"
+                class="w-12 h-12 bg-brand-blue text-white flex items-center justify-center hover:bg-blue-700 transition-colors z-50 relative">
+                <i class="bi bi-list text-2xl" id="menu-icon"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Menu Overlay -->
+  <div id="mobile-menu"
+    class="fixed inset-0 bg-zinc-950 z-40 transform translate-x-full transition-transform duration-300 lg:hidden flex flex-col pt-32 px-8">
+    <nav class="flex flex-col gap-8 text-center">
+      <a href="#"
+        class="text-2xl font-bold text-brand-blue tracking-widest uppercase hover:text-white transition-colors"
+        onclick="toggleMenu()">INICIO</a>
+      <a href="/seguimiento/"
+        class="text-2xl font-bold text-white tracking-widest uppercase hover:text-brand-blue transition-colors"
+        onclick="toggleMenu()">TRACKER</a>
+      <a href="https://wa.me/523324465432" target="_blank"
+        class="mt-8 bg-brand-blue text-white py-4 px-8 font-bold tracking-widest uppercase hover:bg-blue-700 transition-colors">
+        Whatsapp
+      </a>
+    </nav>
+  </div>
+
+  <script>
+    const menuBtn = document.getElementById('mobile-menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const menuIcon = document.getElementById('menu-icon');
+    let isMenuOpen = false;
+
+    function toggleMenu() {
+      isMenuOpen = !isMenuOpen;
+      if (isMenuOpen) {
+        mobileMenu.classList.remove('translate-x-full');
+        menuIcon.classList.remove('bi-list');
+        menuIcon.classList.add('bi-x-lg');
+        document.body.style.overflow = 'hidden';
+      } else {
+        mobileMenu.classList.add('translate-x-full');
+        menuIcon.classList.add('bi-list');
+        menuIcon.classList.remove('bi-x-lg');
+        document.body.style.overflow = 'auto';
+      }
+    }
+
+    menuBtn.addEventListener('click', toggleMenu);
+  </script>
+
+  <!-- Hero Section -->
+  <section class="relative w-full h-[85vh] lg:h-[95vh] overflow-hidden">
+    <!-- Background Image -->
+    <div class="absolute inset-0 w-full h-full">
+      <img
+        src="https://images.unsplash.com/photo-1674898759716-d7ddd59072a5?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+        alt="Luxury Car Wrap"
+        class="w-full h-full object-cover object-center scale-105 animate-[pulse_10s_ease-in-out_infinite] hover:scale-110 transition-transform duration-[10s]">
+    </div>
+
+    <!-- Overlay Gradient -->
+    <div class="absolute inset-0 bg-gradient-to-r from-zinc-950 via-zinc-950/80 to-transparent/10 z-10"></div>
+
+    <!-- Content -->
+    <div class="relative z-20 container mx-auto px-4 h-full flex items-center">
+      <div class="w-full lg:w-3/4 xl:w-2/3 pt-20">
+        <div class="space-y-6">
+          <!-- Subtitle -->
+          <div class="overflow-hidden">
+            <h6
+              class="text-brand-blue font-bold tracking-[0.2em] text-sm md:text-base uppercase animate-slide-in flex items-center gap-3">
+              <span class="w-8 h-0.5 bg-brand-blue inline-block"></span>
+              The Lab Wrap - Taller de Detallado Automotriz
+            </h6>
+          </div>
+
+          <!-- Title -->
+          <h1
+            class="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-black text-white leading-[1.1] tracking-tight animate-fade-in-up opacity-0"
+            style="animation-delay: 0.2s;">
+            Instalación de <span
+              class="text-transparent bg-clip-text bg-gradient-to-r from-brand-blue to-blue-400">Wraps</span>,
+            <br>Pintura automotriz,
+            <br>PPF y Detallado
+          </h1>
+
+          <!-- CTA Button -->
+          <div class="pt-8 animate-fade-in-up opacity-0" style="animation-delay: 0.5s;">
+            <a href="https://wa.me/523324465432" target="_blank" class="group inline-flex items-center gap-0">
+              <span
+                class="bg-brand-blue text-white px-6 md:px-10 py-5 font-bold tracking-widest text-sm md:text-base uppercase transition-all duration-300 group-hover:bg-blue-600">
+                Contacto
+              </span>
+              <span
+                class="bg-zinc-800 text-white px-6 py-5 flex items-center justify-center transition-all duration-300 group-hover:bg-zinc-700">
+                <i class="bi bi-plus-lg text-lg group-hover:rotate-90 transition-transform duration-300"></i>
+              </span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scroll Down Indicator -->
+    <div class="absolute bottom-10 left-1/2 -translate-x-1/2 z-20 animate-bounce hidden md:block">
+      <i class="bi bi-arrow-down text-zinc-500 text-2xl"></i>
+    </div>
+  </section>
+
+  </div>
+  </section>
+
+  <!-- Services Section -->
+  <section class="py-16 md:py-24 bg-zinc-950">
+    <div class="container mx-auto px-4">
+      <div class="max-w-7xl mx-auto"> <!-- Added container for structure -->
+        <!-- Section Header -->
+        <div class="flex flex-col md:flex-row justify-between items-end gap-8 mb-10 md:mb-16">
+          <div class="max-w-2xl">
+            <h6 class="text-brand-blue font-bold tracking-[0.2em] uppercase text-xs mb-4">NUESTROS SERVICIOS</h6>
+            <!-- Smaller text -->
+            <h2 class="text-3xl md:text-4xl lg:text-5xl font-black text-white leading-[1.1]"> <!-- Smaller text -->
+              Brindamos todo tipo de <br>Modificaciones <span class="text-brand-blue">Estéticas</span>
+            </h2>
+            <div class="flex gap-2 mt-8">
+              <span class="w-12 h-1 bg-brand-blue"></span>
+              <span class="w-8 h-1 bg-zinc-800"></span>
+              <span class="w-8 h-1 bg-zinc-800"></span>
+            </div>
+          </div>
+
+          <a href="#" class="group inline-flex items-center gap-0">
+            <span
+              class="bg-brand-blue text-white px-8 py-4 font-bold tracking-widest text-[10px] md:text-xs uppercase transition-all duration-300 group-hover:bg-blue-600">
+              <!-- Smaller text -->
+              TODOS LOS SERVICIOS
+            </span>
+            <span
+              class="bg-zinc-800 text-white px-5 py-4 flex items-center justify-center transition-all duration-300 group-hover:bg-zinc-700">
+              <i class="bi bi-plus-lg text-lg group-hover:rotate-90 transition-transform duration-300"></i>
+            </span>
+          </a>
+        </div>
+
+        <!-- Services Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <!-- Service Card 1: Vinyl -->
+          <div
+            class="group relative h-[450px] bg-zinc-900 border border-zinc-800 overflow-hidden hover:border-brand-blue/50 transition-all duration-500">
+            <!-- Top Content -->
+            <div class="relative z-20 h-1/2 flex items-center justify-center p-6">
+              <h3 class="text-xl md:text-2xl font-bold text-white text-center leading-tight"> <!-- Smaller text -->
+                Vinil <br>Automotriz
+              </h3>
+            </div>
+
+            <!-- Icon Badge -->
+            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-30">
+              <div
+                class="w-16 h-16 rounded-full bg-zinc-950 border-2 border-zinc-800 flex items-center justify-center group-hover:scale-110 group-hover:border-brand-blue group-hover:shadow-[0_0_20px_rgba(0,80,230,0.3)] transition-all duration-500">
+                <!-- Smaller badge -->
+                <i class="bi bi-car-front-fill text-2xl text-brand-blue"></i>
+              </div>
+            </div>
+
+            <!-- Bottom Image -->
+            <div class="absolute bottom-0 left-0 w-full h-1/2 overflow-hidden z-10">
+              <img
+                src="https://images.unsplash.com/photo-1646531840695-62810bcd1171?q=80&w=764&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                alt="Vinil Automotriz"
+                class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 scale-100 group-hover:scale-110">
+              <div class="absolute inset-0 bg-gradient-to-t from-zinc-950 via-transparent to-transparent opacity-80">
+              </div>
+            </div>
+          </div>
+
+          <!-- Service Card 2: PPF -->
+          <div
+            class="group relative h-[450px] bg-zinc-900 border border-zinc-800 overflow-hidden hover:border-brand-blue/50 transition-all duration-500">
+            <!-- Top Content -->
+            <div class="relative z-20 h-1/2 flex items-center justify-center p-6">
+              <h3 class="text-xl md:text-2xl font-bold text-white text-center leading-tight"> <!-- Smaller text -->
+                Instalación de <br>PPF
+              </h3>
+            </div>
+
+            <!-- Icon Badge -->
+            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-30">
+              <div
+                class="w-16 h-16 rounded-full bg-zinc-950 border-2 border-zinc-800 flex items-center justify-center group-hover:scale-110 group-hover:border-brand-blue group-hover:shadow-[0_0_20px_rgba(0,80,230,0.3)] transition-all duration-500">
+                <!-- Smaller badge -->
+                <i class="bi bi-shield-check text-2xl text-brand-blue"></i>
+              </div>
+            </div>
+
+            <!-- Bottom Image -->
+            <div class="absolute bottom-0 left-0 w-full h-1/2 overflow-hidden z-10">
+              <img
+                src="https://plus.unsplash.com/premium_photo-1664299615253-3e123a6c462e?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                alt="PPF"
+                class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 scale-100 group-hover:scale-110">
+              <div class="absolute inset-0 bg-gradient-to-t from-zinc-950 via-transparent to-transparent opacity-80">
+              </div>
+            </div>
+          </div>
+
+          <!-- Service Card 3: Ceramic -->
+          <div
+            class="group relative h-[450px] bg-zinc-900 border border-zinc-800 overflow-hidden hover:border-brand-blue/50 transition-all duration-500">
+            <!-- Top Content -->
+            <div class="relative z-20 h-1/2 flex items-center justify-center p-6">
+              <h3 class="text-xl md:text-2xl font-bold text-white text-center leading-tight"> <!-- Smaller text -->
+                Recubrimiento <br>Cerámico
+              </h3>
+            </div>
+
+            <!-- Icon Badge -->
+            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-30">
+              <div
+                class="w-16 h-16 rounded-full bg-zinc-950 border-2 border-zinc-800 flex items-center justify-center group-hover:scale-110 group-hover:border-brand-blue group-hover:shadow-[0_0_20px_rgba(0,80,230,0.3)] transition-all duration-500">
+                <!-- Smaller badge -->
+                <i class="bi bi-stars text-2xl text-brand-blue"></i>
+              </div>
+            </div>
+
+            <!-- Bottom Image -->
+            <div class="absolute bottom-0 left-0 w-full h-1/2 overflow-hidden z-10">
+              <img
+                src="https://media.istockphoto.com/id/2199814433/photo/car-wash-or-detailing-studio-employee-applies-ceramic-or-graphene-coating.jpg?s=2048x2048&w=is&k=20&c=amwpblxx6FyfhsgGWvLWHmFB1-lCHEy8xPz9WCj4dBM="
+                alt="Cerámico"
+                class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 scale-100 group-hover:scale-110">
+              <div class="absolute inset-0 bg-gradient-to-t from-zinc-950 via-transparent to-transparent opacity-80">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Brand Strip Section -->
+  <section class="py-10 bg-black border-b border-zinc-900/50">
+    <div class="container mx-auto px-4">
+      <div class="max-w-7xl mx-auto">
+        <div class="flex flex-wrap justify-center md:justify-between items-center gap-8 md:gap-12 opacity-80">
+          <img src="{% static 'taller/img/1.webp' %}" alt="Brand 1"
+            class="h-8 md:h-12 w-auto object-contain grayscale hover:grayscale-0 transition-all duration-300">
+          <img src="{% static 'taller/img/2.webp' %}" alt="Brand 2"
+            class="h-8 md:h-12 w-auto object-contain grayscale hover:grayscale-0 transition-all duration-300">
+          <img src="{% static 'taller/img/3.webp' %}" alt="Brand 3"
+            class="h-8 md:h-12 w-auto object-contain grayscale hover:grayscale-0 transition-all duration-300">
+          <img src="{% static 'taller/img/4.webp' %}" alt="Brand 4"
+            class="h-8 md:h-12 w-auto object-contain grayscale hover:grayscale-0 transition-all duration-300">
+          <img src="{% static 'taller/img/1.webp' %}" alt="Brand 1"
+            class="h-8 md:h-12 w-auto object-contain grayscale hover:grayscale-0 transition-all duration-300">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Why Choose Us Section -->
+  <section class="py-20 bg-black relative overflow-hidden">
+    <!-- Background Effects -->
+    <div class="absolute top-0 left-0 w-full h-full">
+      <div
+        class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-brand-blue/5 rounded-full blur-[100px]">
+      </div>
+    </div>
+
+    <div class="container mx-auto px-4 relative z-10">
+      <!-- Section Header -->
+      <div class="text-center mb-16">
+        <h2 class="text-3xl md:text-5xl font-black text-white uppercase tracking-tighter mb-4">
+          ¿Por Qué <span class="text-brand-blue">The Wrap Lab?</span>
+        </h2>
+        <div class="w-24 h-1 bg-brand-blue mx-auto"></div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center max-w-7xl mx-auto">
+        <!-- Video Card -->
+        <div class="relative group">
+          <div class="relative h-[400px] rounded-sm overflow-hidden border border-zinc-800 bg-zinc-900">
+            <!-- Thumbnail/Image -->
+            <img
+              src="https://images.unsplash.com/photo-1745087449059-d8743b80ce1f?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+              alt="The Wrap Lab Workshop"
+              class="w-full h-full object-cover opacity-60 group-hover:opacity-40 transition-opacity duration-500">
+
+            <!-- Play Button Overlay -->
+            <div class="absolute inset-0 flex items-center justify-center">
+              <button onclick="openVideoModal()"
+                class="w-20 h-20 rounded-full bg-brand-blue/90 text-white flex items-center justify-center cursor-pointer hover:bg-brand-blue hover:scale-110 transition-all duration-300 shadow-[0_0_30px_rgba(0,80,230,0.5)] z-20 group-hover:animate-pulse">
+                <i class="bi bi-play-fill text-4xl ml-1"></i>
+              </button>
+            </div>
+
+            <!-- Decorators -->
+            <div class="absolute top-4 left-4 z-20">
+              <span
+                class="px-3 py-1 bg-black/80 text-white text-xs font-bold uppercase tracking-wider border-l-2 border-brand-blue">
+                Play Video
+              </span>
+            </div>
+          </div>
+
+          <!-- Abstract Decor -->
+          <div class="absolute -bottom-4 -right-4 w-24 h-24 bg-zinc-900 border border-zinc-800 -z-10"></div>
+          <div class="absolute -top-4 -left-4 w-24 h-24 bg-brand-blue/10 -z-10"></div>
+        </div>
+
+        <!-- Features Grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+          <!-- Feature 1 -->
+          <div
+            class="group p-6 bg-zinc-900/50 border border-zinc-800 hover:bg-gradient-to-br hover:from-brand-blue hover:to-blue-900 hover:border-brand-blue hover:shadow-[0_0_30px_rgba(0,80,230,0.4)] transition-all duration-500">
+            <i
+              class="bi bi-award text-3xl text-zinc-500 group-hover:text-white transition-colors duration-300 mb-4 block"></i>
+            <h3 class="text-xl font-bold text-white mb-2">Calidad Premium</h3>
+            <p class="text-zinc-400 group-hover:text-zinc-100 text-sm leading-relaxed transition-colors duration-300">
+              Utilizamos solo los mejores materiales del mercado para garantizar durabilidad y acabados perfectos.
+            </p>
+          </div>
+
+          <!-- Feature 2 -->
+          <div
+            class="group p-6 bg-zinc-900/50 border border-zinc-800 hover:bg-gradient-to-br hover:from-brand-blue hover:to-blue-900 hover:border-brand-blue hover:shadow-[0_0_30px_rgba(0,80,230,0.4)] transition-all duration-500">
+            <i
+              class="bi bi-shield-check text-3xl text-zinc-500 group-hover:text-white transition-colors duration-300 mb-4 block"></i>
+            <h3 class="text-xl font-bold text-white mb-2">Garantía Real</h3>
+            <p class="text-zinc-400 group-hover:text-zinc-100 text-sm leading-relaxed transition-colors duration-300">
+              Respaldo total en cada trabajo. Tu satisfacción y la protección de tu vehículo son nuestra prioridad.
+            </p>
+          </div>
+
+          <!-- Feature 3 -->
+          <div
+            class="group p-6 bg-zinc-900/50 border border-zinc-800 hover:bg-gradient-to-br hover:from-brand-blue hover:to-blue-900 hover:border-brand-blue hover:shadow-[0_0_30px_rgba(0,80,230,0.4)] transition-all duration-500">
+            <i
+              class="bi bi-person-workspace text-3xl text-zinc-500 group-hover:text-white transition-colors duration-300 mb-4 block"></i>
+            <h3 class="text-xl font-bold text-white mb-2">Expertos Certificados</h3>
+            <p class="text-zinc-400 group-hover:text-zinc-100 text-sm leading-relaxed transition-colors duration-300">
+              Nuestro equipo cuenta con certificaciones internacionales y años de experiencia en el sector.
+            </p>
+          </div>
+
+          <!-- Feature 4 -->
+          <div
+            class="group p-6 bg-zinc-900/50 border border-zinc-800 hover:bg-gradient-to-br hover:from-brand-blue hover:to-blue-900 hover:border-brand-blue hover:shadow-[0_0_30px_rgba(0,80,230,0.4)] transition-all duration-500">
+            <i
+              class="bi bi-lightning-charge text-3xl text-zinc-500 group-hover:text-white transition-colors duration-300 mb-4 block"></i>
+            <h3 class="text-xl font-bold text-white mb-2">Rapidez y Eficiencia</h3>
+            <p class="text-zinc-400 group-hover:text-zinc-100 text-sm leading-relaxed transition-colors duration-300">
+              Respetamos tu tiempo. Procesos optimizados para entregar resultados impecables en tiempo récord.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Video Modal -->
+  <div id="videoModal" class="fixed inset-0 z-50 hidden opacity-0 transition-opacity duration-300">
+    <div class="absolute inset-0 bg-black/90 backdrop-blur-sm" onclick="closeVideoModal()"></div>
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-4xl px-4">
+      <div class="relative pt-[56.25%] bg-black shadow-2xl border border-zinc-800">
+        <button onclick="closeVideoModal()"
+          class="absolute -top-12 right-0 text-white hover:text-brand-blue transition-colors">
+          <i class="bi bi-x-lg text-3xl"></i>
+        </button>
+        <iframe id="youtubeFrame" class="absolute top-0 left-0 w-full h-full" src="" title="YouTube video player"
+          frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowfullscreen>
         </iframe>
-        <div class="absolute inset-0 pointer-events-none rounded-3xl ring-1 ring-inset ring-zinc-800"></div>
       </div>
     </div>
   </div>
-</div>
 
-<!-- Footer Simple -->
-<footer class="mt-24 border-t border-zinc-800/50 py-12">
-  <div class="mx-auto flex max-w-5xl flex-col items-center justify-between gap-6 px-4 sm:flex-row">
-    <p class="text-sm text-zinc-500">
-      &copy; {% now "Y" %} The Wrap Lab. Todos los derechos reservados.
-    </p>
+  <script>
+    const modal = document.getElementById('videoModal');
+    const iframe = document.getElementById('youtubeFrame');
+    // Using a placeholder video ID - replace with actual ID
+    const videoId = 'dQw4w9WgXcQ';
 
-    <div class="flex gap-6">
-      <!-- Instagram -->
-      <a href="#" class="text-zinc-500 transition hover:text-white" aria-label="Instagram">
-        <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
-          <path
-            d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
-        </svg>
-      </a>
+    function openVideoModal() {
+      modal.classList.remove('hidden');
+      // Small delay to allow display:block to apply before opacity transition
+      setTimeout(() => {
+        modal.classList.remove('opacity-0');
+        iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+        document.body.style.overflow = 'hidden';
+      }, 10);
+    }
 
-      <!-- WhatsApp -->
-      <a href="#" class="text-zinc-500 transition hover:text-white" aria-label="WhatsApp">
-        <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
-          <path
-            d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z" />
-        </svg>
-      </a>
+    function closeVideoModal() {
+      modal.classList.add('opacity-0');
+      setTimeout(() => {
+        modal.classList.add('hidden');
+        iframe.src = '';
+        document.body.style.overflow = '';
+      }, 300);
+    }
 
-      <!-- Facebook -->
-      <a href="#" class="text-zinc-500 transition hover:text-white" aria-label="Facebook">
-        <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
-          <path
-            d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.596 0-5.192 1.583-5.192 4.615v3.385z" />
-        </svg>
-      </a>
+    // Close on Escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
+        closeVideoModal();
+      }
+    });
+
+    // Scroll to Top Logic
+    const scrollTopBtn = document.getElementById('scrollTopBtn');
+
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 500) {
+        scrollTopBtn.classList.remove('translate-y-20', 'opacity-0');
+      } else {
+        scrollTopBtn.classList.add('translate-y-20', 'opacity-0');
+      }
+    });
+
+    function scrollToTop() {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    }
+  </script>
+
+  <!-- Footer Section -->
+  <footer class="bg-black border-t border-zinc-900 py-8">
+    <div class="container mx-auto px-4">
+      <div class="flex flex-col md:flex-row justify-between items-center gap-6 text-sm">
+        <!-- Copyright -->
+        <div class="text-zinc-400 text-center md:text-left">
+          &copy; Copyright 2024 <span class="text-brand-blue font-bold">The Wrap Lab</span>. Todos los derechos
+          reservados
+        </div>
+
+        <!-- Social Icons -->
+        <div class="flex gap-4">
+          <a href="#"
+            class="w-10 h-10 bg-zinc-900 rounded-md flex items-center justify-center text-zinc-400 hover:bg-brand-blue hover:text-white transition-all duration-300 border border-zinc-800 hover:border-brand-blue">
+            <i class="bi bi-facebook text-lg"></i>
+          </a>
+          <a href="#"
+            class="w-10 h-10 bg-zinc-900 rounded-md flex items-center justify-center text-zinc-400 hover:bg-brand-blue hover:text-white transition-all duration-300 border border-zinc-800 hover:border-brand-blue">
+            <i class="bi bi-instagram text-lg"></i>
+          </a>
+        </div>
+
+        <!-- Legal Links -->
+        <div class="flex gap-6 text-zinc-400">
+          <a href="#" class="hover:text-brand-blue transition-colors duration-300">Aviso de Privacidad</a>
+          <a href="#" class="hover:text-brand-blue transition-colors duration-300">Términos y Condiciones</a>
+        </div>
+      </div>
     </div>
-  </div>
-</footer>
-{% endblock %}
+  </footer>
+
+  <!-- Scroll to Top Button -->
+  <button id="scrollTopBtn" onclick="scrollToTop()"
+    class="fixed bottom-8 right-8 w-12 h-12 bg-brand-blue text-white rounded-full shadow-[0_0_20px_rgba(0,80,230,0.4)] flex items-center justify-center translate-y-20 opacity-0 transition-all duration-500 z-40 hover:scale-110 hover:bg-blue-600 cursor-pointer">
+    <i class="bi bi-arrow-up text-xl font-bold"></i>
+  </button>
+</body>
+
+</html>

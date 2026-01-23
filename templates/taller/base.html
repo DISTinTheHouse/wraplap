@@ -30,6 +30,24 @@
     content="{% block twitter_description %}Transformamos y protegemos tu vehículo con los mejores materiales del mercado. Wrapping Premium y PPF de alta gama.{% endblock %}">
 
   <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            zinc: {
+              950: '#09090b',
+              900: '#18181b',
+              800: '#27272a',
+            },
+            brand: {
+              blue: '#0050E6', // Strong Blue
+            }
+          }
+        }
+      }
+    }
+  </script>
   <style>
     /* Global Input Styles for Premium Feel */
     input[type="text"],

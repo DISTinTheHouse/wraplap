@@ -1,145 +1,427 @@
-{% extends "taller/base.html" %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
 
-{% block title %}Wrap Lab | Seguimiento {{ orden.folio }}{% endblock %}
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wrap Lab | Seguimiento {{ orden.folio }}</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            zinc: {
+              950: '#09090b',
+              900: '#18181b',
+              800: '#27272a',
+            },
+            brand: {
+              blue: '#0050E6', // Strong Blue
+            }
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+          },
+          animation: {
+            'fade-in-up': 'fadeInUp 1s ease-out forwards',
+            'slide-in': 'slideIn 1s ease-out forwards',
+          },
+          keyframes: {
+            fadeInUp: {
+              '0%': { opacity: '0', transform: 'translateY(30px)' },
+              '100%': { opacity: '1', transform: 'translateY(0)' },
+            },
+            slideIn: {
+              '0%': { opacity: '0', transform: 'translateX(-30px)' },
+              '100%': { opacity: '1', transform: 'translateX(0)' },
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&display=swap');
 
-{% block content %}
-<div class="relative mx-auto w-full max-w-4xl">
-  <!-- Glow Effects -->
-  <div class="absolute -left-20 -top-20 h-64 w-64 rounded-full bg-indigo-500/10 blur-[100px]"></div>
-  <div class="absolute -bottom-20 -right-20 h-64 w-64 rounded-full bg-purple-500/10 blur-[100px]"></div>
+    /* Custom scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
 
-  <div class="relative flex flex-col gap-6">
-    <!-- Header Card -->
-    <section class="overflow-hidden rounded-3xl border border-zinc-800 bg-zinc-900/50 shadow-2xl backdrop-blur-xl">
-      <!-- Top Bar with Gradient -->
-      <div class="h-1 w-full bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500"></div>
+    ::-webkit-scrollbar-track {
+      background: #09090b;
+    }
 
-      <div class="p-6 sm:p-10">
-        <div class="flex flex-col gap-10">
-          <!-- Header Info -->
-          <div class="flex flex-col justify-between gap-6 sm:flex-row sm:items-start">
-            <div>
-              <div class="flex flex-wrap items-center gap-3">
-                <span
-                  class="inline-flex items-center rounded-full border border-zinc-700 bg-zinc-800/50 px-3 py-1 text-xs font-medium text-zinc-300 backdrop-blur-sm">
-                  Folio #{{ orden.folio }}
-                </span>
-                <span class="text-xs text-zinc-500">
-                  Actualizado {{ orden.actualizado_en|date:"d M, H:i" }}
-                </span>
-              </div>
-              <h1 class="mt-4 text-3xl font-bold tracking-tight text-white sm:text-4xl">
-                {{ orden.vehiculo_marca }} {{ orden.vehiculo_modelo }}
-              </h1>
-              <div class="mt-3 flex items-center gap-3 text-lg text-zinc-400">
-                <span>{{ orden.vehiculo_anio }}</span>
-                <span class="h-1 w-1 rounded-full bg-zinc-700"></span>
-                <span class="text-zinc-300">{{ orden.vehiculo_color }}</span>
-              </div>
+    ::-webkit-scrollbar-thumb {
+      background: #27272a;
+      border-radius: 4px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: #3f3f46;
+    }
+  </style>
+</head>
+
+<body class="bg-zinc-950 text-white font-sans antialiased flex flex-col min-h-screen">
+  <!-- Header -->
+  <header class="w-full relative z-50">
+    <!-- Top Bar -->
+    <div class="bg-black border-b border-zinc-900 text-[11px] md:text-xs text-zinc-400 py-2.5 tracking-wide">
+      <div class="container mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-2">
+        <!-- Left: Contact Info -->
+        <div class="flex flex-wrap justify-center md:justify-start gap-x-6 gap-y-2 items-center">
+          <a href="mailto:thewraplab@gmail.com" class="hover:text-white transition-colors flex items-center gap-2">
+            <i class="bi bi-envelope-fill text-brand-blue"></i>
+            <span>thewraplab@gmail.com</span>
+          </a>
+          <div class="hidden md:flex items-center gap-2">
+            <i class="bi bi-clock-fill text-brand-blue"></i>
+            <span>10.00am - 7.00pm</span>
+          </div>
+          <div class="hidden lg:flex items-center gap-2">
+            <i class="bi bi-geo-alt-fill text-brand-blue"></i>
+            <span>Av. Ignacio L Vallarta 5001, Prados Vallarta, 45020 Zapopan, Jal.</span>
+          </div>
+        </div>
+
+        <!-- Right: Socials -->
+        <div class="flex items-center gap-4">
+          <a href="https://www.facebook.com/profile.php?id=100063537074646" target="_blank"
+            class="hover:text-brand-blue transition-colors"><i class="bi bi-facebook"></i></a>
+          <a href="https://www.instagram.com/evolution.wraps" target="_blank"
+            class="hover:text-brand-blue transition-colors"><i class="bi bi-instagram"></i></a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Navbar -->
+    <div class="bg-black/95 backdrop-blur-sm border-b border-zinc-900/50 sticky top-0 z-50">
+      <div class="container mx-auto px-4">
+        <div class="flex items-center justify-between h-20 md:h-24">
+          <!-- Logo -->
+          <a href="/" class="flex-shrink-0 group">
+            <div class="flex flex-col leading-none">
+              <span class="font-black text-xl md:text-2xl tracking-tighter text-white">THE LAB</span>
+              <span class="font-bold text-lg md:text-xl tracking-widest text-brand-blue -mt-1">WRAP</span>
+            </div>
+          </a>
+
+          <!-- Desktop Menu -->
+          <nav class="hidden lg:flex items-center gap-10">
+            <a href="/"
+              class="text-sm font-bold tracking-[0.2em] text-white hover:text-brand-blue transition-colors py-1 relative group">
+              INICIO
+              <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-brand-blue transition-all duration-300 group-hover:w-full"></span>
+            </a>
+            <a href="/seguimiento/"
+              class="text-sm font-bold tracking-[0.2em] text-brand-blue border-b-2 border-brand-blue py-1">
+              TRACKER
+            </a>
+          </nav>
+
+          <!-- Right Side: Contact/CTA -->
+          <div class="flex items-center">
+            <!-- Whatsapp Button Box -->
+            <div class="hidden md:flex items-center pl-8 h-12 border-l border-zinc-800">
+              <a href="https://wa.me/523324465432" target="_blank" class="flex items-center gap-4 group">
+                <div
+                  class="w-10 h-10 rounded-full bg-brand-blue flex items-center justify-center text-white shadow-[0_0_15px_rgba(0,80,230,0.3)] group-hover:scale-110 group-hover:shadow-[0_0_20px_rgba(0,80,230,0.5)] transition-all duration-300">
+                  <i class="bi bi-whatsapp text-lg"></i>
+                </div>
+                <div class="text-right hidden xl:block">
+                  <div class="text-[10px] text-zinc-500 uppercase tracking-widest font-semibold">Whatsapp</div>
+                  <div class="text-base font-bold text-white group-hover:text-brand-blue transition-colors">+52 (33)
+                    2446-5432</div>
+                </div>
+              </a>
             </div>
 
-            <div class="flex flex-col items-start gap-2 sm:items-end">
-              <div class="text-xs font-medium uppercase tracking-wider text-zinc-500">Servicio</div>
-              <div
-                class="flex items-center gap-2 rounded-xl border border-zinc-700/50 bg-zinc-800/30 px-4 py-2 backdrop-blur-sm">
-                <span class="font-semibold text-white">{{ orden.get_servicio_display }}</span>
-              </div>
+            <!-- Mobile Menu Button -->
+            <div class="lg:hidden flex items-center gap-4 ml-4">
+              <button id="mobile-menu-btn"
+                class="w-12 h-12 bg-brand-blue text-white flex items-center justify-center hover:bg-blue-700 transition-colors z-50 relative">
+                <i class="bi bi-list text-2xl" id="menu-icon"></i>
+              </button>
             </div>
           </div>
+        </div>
+      </div>
+    </div>
+  </header>
 
-          <!-- Progress Tracker -->
-          <div class="relative py-4">
-            <!-- Progress Bar Background (Vertical on mobile, Horizontal on desktop) -->
-            <div
-              class="absolute left-[15px] top-4 h-[calc(100%-2rem)] w-0.5 bg-zinc-800 md:left-0 md:top-[1.15rem] md:h-0.5 md:w-full">
-            </div>
+  <!-- Mobile Menu Overlay -->
+  <div id="mobile-menu"
+    class="fixed inset-0 bg-zinc-950 z-40 transform translate-x-full transition-transform duration-300 lg:hidden flex flex-col pt-32 px-8">
+    <nav class="flex flex-col gap-8 text-center">
+      <a href="/"
+        class="text-2xl font-bold text-white tracking-widest uppercase hover:text-brand-blue transition-colors"
+        onclick="toggleMenu()">INICIO</a>
+      <a href="/seguimiento/"
+        class="text-2xl font-bold text-brand-blue tracking-widest uppercase hover:text-white transition-colors"
+        onclick="toggleMenu()">TRACKER</a>
+      <a href="https://wa.me/523324465432" target="_blank"
+        class="mt-8 bg-brand-blue text-white py-4 px-8 font-bold tracking-widest uppercase hover:bg-blue-700 transition-colors">
+        Whatsapp
+      </a>
+    </nav>
+  </div>
 
-            <div class="flex flex-col justify-between gap-8 md:flex-row md:gap-0">
-              {% for paso in pasos %}
-              <div class="relative z-10 flex items-center gap-4 md:flex-col md:gap-4 md:text-center">
-                <!-- Indicator Circle -->
-                <div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border-2 transition-all duration-500
-                                    {% if forloop.counter0 < idx_actual %}
-                                        border-indigo-500 bg-indigo-500 text-white shadow-[0_0_15px_rgba(99,102,241,0.5)]
-                                    {% elif forloop.counter0 == idx_actual %}
-                                        border-indigo-500 bg-zinc-950 text-indigo-500 shadow-[0_0_20px_rgba(99,102,241,0.3)] scale-110
-                                    {% else %}
-                                        border-zinc-800 bg-zinc-950 text-zinc-700
-                                    {% endif %}
-                                ">
-                  {% if forloop.counter0 < idx_actual %} <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24"
-                    stroke="currentColor" stroke-width="3">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
-                    </svg>
-                    {% elif forloop.counter0 == idx_actual %}
-                    <div class="h-2.5 w-2.5 rounded-full bg-indigo-500 animate-pulse"></div>
-                    {% else %}
-                    <div class="h-1.5 w-1.5 rounded-full bg-zinc-800"></div>
-                    {% endif %}
+  <script>
+    const menuBtn = document.getElementById('mobile-menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const menuIcon = document.getElementById('menu-icon');
+    let isMenuOpen = false;
+
+    function toggleMenu() {
+      isMenuOpen = !isMenuOpen;
+      if (isMenuOpen) {
+        mobileMenu.classList.remove('translate-x-full');
+        menuIcon.classList.remove('bi-list');
+        menuIcon.classList.add('bi-x-lg');
+        document.body.style.overflow = 'hidden';
+      } else {
+        mobileMenu.classList.add('translate-x-full');
+        menuIcon.classList.add('bi-list');
+        menuIcon.classList.remove('bi-x-lg');
+        document.body.style.overflow = 'auto';
+      }
+    }
+
+    menuBtn.addEventListener('click', toggleMenu);
+  </script>
+
+  <!-- Main Content -->
+  <main class="flex-grow container mx-auto px-4 py-8 md:py-12">
+    <div class="relative mx-auto w-full max-w-4xl">
+      <!-- Glow Effects -->
+      <div class="absolute -left-20 -top-20 h-64 w-64 rounded-full bg-brand-blue/10 blur-[100px]"></div>
+      <div class="absolute -bottom-20 -right-20 h-64 w-64 rounded-full bg-cyan-500/10 blur-[100px]"></div>
+
+      <div class="relative flex flex-col gap-6">
+        <!-- Header Card -->
+        <section class="overflow-hidden rounded-3xl border border-zinc-800 bg-zinc-900/50 shadow-2xl backdrop-blur-xl">
+          <!-- Top Bar with Gradient -->
+          <div class="h-1 w-full bg-gradient-to-r from-brand-blue via-blue-500 to-cyan-400"></div>
+
+          <div class="p-6 sm:p-10">
+            <div class="flex flex-col gap-10">
+              <!-- Header Info -->
+              <div class="flex flex-col justify-between gap-6 sm:flex-row sm:items-start">
+                <div>
+                  <div class="flex flex-wrap items-center gap-3">
+                    <span
+                      class="inline-flex items-center rounded-full border border-zinc-700 bg-zinc-800/50 px-3 py-1 text-xs font-medium text-zinc-300 backdrop-blur-sm">
+                      Folio #{{ orden.folio }}
+                    </span>
+                    <span class="text-xs text-zinc-500">
+                      Actualizado {{ orden.actualizado_en|date:"d M, H:i" }}
+                    </span>
+                  </div>
+                  <h1 class="mt-4 text-3xl font-bold tracking-tight text-white sm:text-4xl">
+                    {{ orden.vehiculo_marca }} {{ orden.vehiculo_modelo }}
+                  </h1>
+                  <div class="mt-3 flex items-center gap-3 text-lg text-zinc-400">
+                    <span>{{ orden.vehiculo_anio }}</span>
+                    <span class="h-1 w-1 rounded-full bg-zinc-700"></span>
+                    <span class="text-zinc-300">{{ orden.vehiculo_color }}</span>
+                  </div>
                 </div>
 
-                <!-- Label -->
-                <div class="flex flex-col md:items-center">
-                  <span class="text-sm font-semibold transition-colors duration-300
-                                        {% if forloop.counter0 <= idx_actual %}text-white{% else %}text-zinc-600{% endif %}
+                <div class="flex flex-col items-start gap-2 sm:items-end">
+                  <div class="text-xs font-medium uppercase tracking-wider text-zinc-500">Servicio</div>
+                  <div
+                    class="flex items-center gap-2 rounded-xl border border-zinc-700/50 bg-zinc-800/30 px-4 py-2 backdrop-blur-sm">
+                    <span class="font-semibold text-white">{{ orden.get_servicio_display }}</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Progress Tracker -->
+              <div class="relative py-4">
+                <!-- Progress Bar Background (Vertical on mobile, Horizontal on desktop) -->
+                <div
+                  class="absolute left-[15px] top-4 h-[calc(100%-2rem)] w-0.5 bg-zinc-800 md:left-0 md:top-[1.15rem] md:h-0.5 md:w-full">
+                </div>
+
+                <div class="flex flex-col justify-between gap-8 md:flex-row md:gap-0">
+                  {% for paso in pasos %}
+                  <div class="relative z-10 flex items-center gap-4 md:flex-col md:gap-4 md:text-center">
+                    <!-- Indicator Circle -->
+                    <div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border-2 transition-all duration-500
+                                        {% if forloop.counter0 < idx_actual %}
+                                            border-brand-blue bg-brand-blue text-white shadow-[0_0_15px_rgba(0,80,230,0.5)]
+                                        {% elif forloop.counter0 == idx_actual %}
+                                            border-brand-blue bg-zinc-950 text-brand-blue shadow-[0_0_20px_rgba(0,80,230,0.3)] scale-110
+                                        {% else %}
+                                            border-zinc-800 bg-zinc-950 text-zinc-700
+                                        {% endif %}
                                     ">
-                    {{ paso.label }}
-                  </span>
+                      {% if forloop.counter0 < idx_actual %} <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor" stroke-width="3">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                        </svg>
+                        {% elif forloop.counter0 == idx_actual %}
+                        <div class="h-2.5 w-2.5 rounded-full bg-brand-blue animate-pulse"></div>
+                        {% else %}
+                        <div class="h-1.5 w-1.5 rounded-full bg-zinc-800"></div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Label -->
+                    <div class="flex flex-col md:items-center">
+                      <span class="text-sm font-semibold transition-colors duration-300
+                                            {% if forloop.counter0 <= idx_actual %}text-white{% else %}text-zinc-600{% endif %}
+                                        ">
+                        {{ paso.label }}
+                      </span>
+                    </div>
+                  </div>
+                  {% endfor %}
+                </div>
+              </div>
+            </div>
+
+            <!-- Payment Section -->
+            <div class="mt-4 flex flex-col md:flex-row gap-6 border-t border-zinc-800 pt-6">
+              <div class="flex-1 bg-zinc-950 rounded-xl p-6 border border-zinc-800">
+                <h3 class="text-xl font-bold text-white mb-2">Saldo Pendiente</h3>
+                <div class="text-3xl font-black {% if orden.saldo_pendiente > 0 %}text-red-600{% else %}text-green-500{% endif %}">
+                  $ {{ orden.saldo_pendiente|floatformat:2 }} MXN
+                </div>
+                
+                {% if orden.saldo_pendiente > 0 %}
+                <a href="https://link.mercadopago.com.mx/evolutionwraps" target="_blank" 
+                   class="mt-6 inline-flex items-center justify-center w-full md:w-auto px-6 py-3 bg-[#009EE3] hover:bg-[#008CC9] text-white font-bold rounded-lg transition-all duration-300 shadow-lg shadow-blue-500/20 gap-2">
+                  <i class="bi bi-credit-card-2-front-fill"></i>
+                  PAGAR CON MERCADO PAGO
+                </a>
+                {% else %}
+                <div class="mt-4 text-green-500 font-medium flex items-center gap-2">
+                  <i class="bi bi-check-circle-fill"></i>
+                  Orden pagada en su totalidad
+                </div>
+                {% endif %}
+              </div>
+              
+              <div class="flex-1 flex flex-col justify-center text-sm text-zinc-400">
+                 <p class="mb-2"><i class="bi bi-info-circle mr-2"></i>El pago se realiza de forma segura a través de Mercado Pago.</p>
+                 <p><i class="bi bi-shield-check mr-2"></i>Aceptamos tarjetas de crédito, débito y transferencias.</p>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- Updates Section -->
+        <section class="overflow-hidden rounded-3xl border border-zinc-800 bg-zinc-900/50 shadow-xl backdrop-blur-xl">
+          <div class="border-b border-zinc-800 bg-zinc-900/30 px-6 py-5 sm:px-8 sm:py-6">
+            <h2 class="text-lg font-semibold text-white">Bitácora de Avances</h2>
+          </div>
+
+          <div class="p-6 sm:p-8">
+            {% if avances %}
+            <div class="relative ml-3 space-y-8 border-l border-zinc-800">
+              {% for avance in avances %}
+              <div class="relative ml-8">
+                <!-- Timeline Dot -->
+                <span
+                  class="absolute -left-[41px] top-1.5 flex h-4 w-4 items-center justify-center rounded-full border border-zinc-900 bg-zinc-800 ring-4 ring-zinc-950">
+                  <span class="h-1.5 w-1.5 rounded-full bg-zinc-400"></span>
+                </span>
+
+                <div
+                  class="group rounded-2xl border border-zinc-800 bg-zinc-900/30 p-5 transition-all hover:border-zinc-700 hover:bg-zinc-900/50">
+                  <div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+                    <span
+                      class="inline-flex w-fit items-center rounded-lg border border-brand-blue/20 bg-brand-blue/10 px-2.5 py-1 text-xs font-medium text-blue-400">
+                      {{ avance.get_estatus_display }}
+                    </span>
+                    <time class="text-xs text-zinc-500">{{ avance.creado_en|date:"d M Y, h:i a" }}</time>
+                  </div>
+                  <div class="mt-3 text-sm leading-relaxed text-zinc-300">
+                    {{ avance.nota|linebreaksbr }}
+                  </div>
                 </div>
               </div>
               {% endfor %}
             </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Updates Section -->
-    <section class="overflow-hidden rounded-3xl border border-zinc-800 bg-zinc-900/50 shadow-xl backdrop-blur-xl">
-      <div class="border-b border-zinc-800 bg-zinc-900/30 px-6 py-5 sm:px-8 sm:py-6">
-        <h2 class="text-lg font-semibold text-white">Bitácora de Avances</h2>
-      </div>
-
-      <div class="p-6 sm:p-8">
-        {% if avances %}
-        <div class="relative ml-3 space-y-8 border-l border-zinc-800">
-          {% for avance in avances %}
-          <div class="relative ml-8">
-            <!-- Timeline Dot -->
-            <span
-              class="absolute -left-[41px] top-1.5 flex h-4 w-4 items-center justify-center rounded-full border border-zinc-900 bg-zinc-800 ring-4 ring-zinc-950">
-              <span class="h-1.5 w-1.5 rounded-full bg-zinc-400"></span>
-            </span>
-
-            <div
-              class="group rounded-2xl border border-zinc-800 bg-zinc-900/30 p-5 transition-all hover:border-zinc-700 hover:bg-zinc-900/50">
-              <div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-                <span
-                  class="inline-flex w-fit items-center rounded-lg border border-indigo-500/20 bg-indigo-500/10 px-2.5 py-1 text-xs font-medium text-indigo-400">
-                  {{ avance.get_estatus_display }}
-                </span>
-                <time class="text-xs text-zinc-500">{{ avance.creado_en|date:"d M Y, h:i a" }}</time>
+            {% else %}
+            <div class="flex flex-col items-center justify-center py-12 text-center">
+              <div class="rounded-full bg-zinc-800/50 p-4">
+                <svg class="h-6 w-6 text-zinc-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                </svg>
               </div>
-              <div class="mt-3 text-sm leading-relaxed text-zinc-300">
-                {{ avance.nota|linebreaksbr }}
-              </div>
+              <p class="mt-4 text-sm text-zinc-400">Aún no hay avances registrados para esta orden.</p>
             </div>
+            {% endif %}
           </div>
-          {% endfor %}
-        </div>
-        {% else %}
-        <div class="flex flex-col items-center justify-center py-12 text-center">
-          <div class="rounded-full bg-zinc-800/50 p-4">
-            <svg class="h-6 w-6 text-zinc-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
-            </svg>
-          </div>
-          <p class="mt-4 text-sm text-zinc-400">Aún no hay avances registrados para esta orden.</p>
-        </div>
-        {% endif %}
+        </section>
       </div>
-    </section>
-  </div>
-</div>
-{% endblock %}
+    </div>
+  </main>
+
+  <!-- Footer Section -->
+  <footer class="bg-black border-t border-zinc-900 py-8">
+    <div class="container mx-auto px-4">
+      <div class="flex flex-col md:flex-row justify-between items-center gap-6 text-sm">
+        <!-- Copyright -->
+        <div class="text-zinc-400 text-center md:text-left">
+          &copy; Copyright 2024 <span class="text-brand-blue font-bold">The Wrap Lab</span>. Todos los derechos
+          reservados
+        </div>
+
+        <!-- Social Icons -->
+        <div class="flex gap-4">
+          <a href="#"
+            class="w-10 h-10 bg-zinc-900 rounded-md flex items-center justify-center text-zinc-400 hover:bg-brand-blue hover:text-white transition-all duration-300 border border-zinc-800 hover:border-brand-blue">
+            <i class="bi bi-facebook text-lg"></i>
+          </a>
+          <a href="#"
+            class="w-10 h-10 bg-zinc-900 rounded-md flex items-center justify-center text-zinc-400 hover:bg-brand-blue hover:text-white transition-all duration-300 border border-zinc-800 hover:border-brand-blue">
+            <i class="bi bi-instagram text-lg"></i>
+          </a>
+        </div>
+
+        <!-- Legal Links -->
+        <div class="flex gap-6 text-zinc-400">
+          <a href="#" class="hover:text-brand-blue transition-colors duration-300">Aviso de Privacidad</a>
+          <a href="#" class="hover:text-brand-blue transition-colors duration-300">Términos y Condiciones</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scroll to Top Button -->
+  <button id="scrollTopBtn" onclick="scrollToTop()"
+    class="fixed bottom-8 right-8 w-12 h-12 bg-brand-blue text-white rounded-full shadow-[0_0_20px_rgba(0,80,230,0.4)] flex items-center justify-center translate-y-20 opacity-0 transition-all duration-500 z-40 hover:scale-110 hover:bg-blue-600 cursor-pointer">
+    <i class="bi bi-arrow-up text-xl font-bold"></i>
+  </button>
+
+  <script>
+    // Scroll to Top Logic
+    const scrollTopBtn = document.getElementById('scrollTopBtn');
+
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 500) {
+        scrollTopBtn.classList.remove('translate-y-20', 'opacity-0');
+      } else {
+        scrollTopBtn.classList.add('translate-y-20', 'opacity-0');
+      }
+    });
+
+    function scrollToTop() {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    }
+  </script>
+</body>
+
+</html>

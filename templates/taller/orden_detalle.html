@@ -79,6 +79,42 @@
           </div>
         </section>
 
+        <!-- Costos Form -->
+        <section class="rounded-3xl border border-zinc-800 bg-zinc-900/50 p-5 shadow-xl backdrop-blur-xl sm:p-8">
+          <h2 class="text-lg font-semibold text-white">Gestión de Costos</h2>
+          <form method="post" class="mt-6 flex flex-col gap-4">
+            {% csrf_token %}
+            <div class="grid gap-4 sm:grid-cols-2">
+              <div class="space-y-2">
+                <label class="text-xs font-medium text-zinc-400" for="{{ costos_form.costo_total.id_for_label }}">Costo
+                  Total</label>
+                {{ costos_form.costo_total }}
+                {% if costos_form.costo_total.errors %}
+                <div class="text-xs text-red-400">{{ costos_form.costo_total.errors }}</div>
+                {% endif %}
+              </div>
+              <div class="space-y-2">
+                <label class="text-xs font-medium text-zinc-400" for="{{ costos_form.monto_pagado.id_for_label }}">Monto
+                  Pagado</label>
+                {{ costos_form.monto_pagado }}
+                {% if costos_form.monto_pagado.errors %}
+                <div class="text-xs text-red-400">{{ costos_form.monto_pagado.errors }}</div>
+                {% endif %}
+              </div>
+            </div>
+            <div class="pt-2">
+              <button type="submit" name="submit_costos"
+                class="inline-flex w-full items-center justify-center rounded-xl bg-zinc-800 px-6 py-3.5 sm:py-3 text-sm font-semibold text-white shadow-lg shadow-zinc-900/20 transition-all hover:bg-zinc-700 hover:shadow-xl sm:w-auto">
+                <svg class="mr-2 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                Actualizar Costos
+              </button>
+            </div>
+          </form>
+        </section>
+
         <!-- Update Form -->
         <section class="rounded-3xl border border-zinc-800 bg-zinc-900/50 p-5 shadow-xl backdrop-blur-xl sm:p-8">
           <h2 class="text-lg font-semibold text-white">Actualizar Progreso</h2>
@@ -109,7 +145,7 @@
             </div>
 
             <div class="pt-2">
-              <button type="submit"
+              <button type="submit" name="submit_avance"
                 class="inline-flex w-full items-center justify-center rounded-xl bg-white px-6 py-3.5 sm:py-3 text-sm font-semibold text-zinc-950 shadow-lg shadow-zinc-900/20 transition-all hover:bg-zinc-200 hover:shadow-xl sm:w-auto">
                 <svg class="mr-2 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
