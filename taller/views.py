@@ -9,8 +9,8 @@ from django.urls import reverse
 
 from django.utils import timezone
 
-from .forms import AvanceForm, CitaForm, OrdenServicioForm, CostosForm
-from .models import Avance, Cita, OrdenServicio
+from .forms import AvanceForm, CitaForm, OrdenServicioForm, CostosForm, FotoOrdenForm
+from .models import Avance, Cita, OrdenServicio, FotoOrden
 
 
 def index(request: HttpRequest) -> HttpResponse:
@@ -27,6 +27,7 @@ def folio_lookup(request: HttpRequest) -> HttpResponse:
 def seguimiento_detalle(request: HttpRequest, folio: str) -> HttpResponse:
     orden = get_object_or_404(OrdenServicio, folio=folio.upper())
     avances = orden.avances.all()
+    fotos = orden.fotos.all()
     
     # Definir pasos para el tracker visual
     # choices es una lista de tuplas (valor, etiqueta)
@@ -59,6 +60,7 @@ def seguimiento_detalle(request: HttpRequest, folio: str) -> HttpResponse:
     return render(request, 'taller/seguimiento_detalle.html', {
         'orden': orden, 
         'avances': avances,
+        'fotos': fotos,
         'pasos': pasos_visuales,
         'idx_actual': idx_actual
     })
@@ -67,6 +69,11 @@ def seguimiento_detalle(request: HttpRequest, folio: str) -> HttpResponse:
 class SuperuserLoginView(LoginView):
     template_name = 'taller/login.html'
     authentication_form = auth_forms.AuthenticationForm
+
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            return redirect('dashboard')
+        return super().dispatch(request, *args, **kwargs)
 
     def form_valid(self, form):
         user = form.get_user()
@@ -139,12 +146,13 @@ def orden_editar(request: HttpRequest, pk: int) -> HttpResponse:
 def orden_detalle(request: HttpRequest, pk: int) -> HttpResponse:
     orden = get_object_or_404(OrdenServicio, pk=pk)
     
-    form = AvanceForm(initial={'estatus': orden.estatus})
+    form = AvanceForm(initial={'estatus': orden.estatus}, orden=orden)
     costos_form = CostosForm(instance=orden)
+    fotos_form = FotoOrdenForm(orden=orden)
 
     if request.method == 'POST':
         if 'submit_avance' in request.POST:
-            form = AvanceForm(request.POST)
+            form = AvanceForm(request.POST, orden=orden)
             if form.is_valid():
                 avance: Avance = form.save(commit=False)
                 avance.orden = orden
@@ -161,7 +169,16 @@ def orden_detalle(request: HttpRequest, pk: int) -> HttpResponse:
                 messages.success(request, 'Costos actualizados.')
                 return redirect('orden_detalle', pk=orden.pk)
 
+        elif 'submit_fotos' in request.POST:
+            fotos_form = FotoOrdenForm(request.POST, orden=orden)
+            if fotos_form.is_valid():
+                fotos_form.save()
+                messages.success(request, 'Galería actualizada correctamente.')
+                return redirect('orden_detalle', pk=orden.pk)
+
     avances = orden.avances.all()
+    fotos = orden.fotos.all()
+    
     return render(
         request,
         'taller/orden_detalle.html',
@@ -169,7 +186,9 @@ def orden_detalle(request: HttpRequest, pk: int) -> HttpResponse:
             'orden': orden, 
             'form': form, 
             'costos_form': costos_form,
+            'fotos_form': fotos_form,
             'avances': avances, 
+            'fotos': fotos,
             'cliente_url': _cliente_url(request, orden)
         },
     )

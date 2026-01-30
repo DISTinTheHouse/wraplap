@@ -1,12 +1,13 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" class="overflow-x-hidden">
 
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Wrap Lab | Seguimiento {{ orden.folio }}</title>
+  <title>The Wrap Lab | Seguimiento {{ orden.folio }}</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.13.3/dist/cdn.min.js"></script>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
   <script>
     tailwind.config = {
@@ -28,14 +29,15 @@
           animation: {
             'fade-in-up': 'fadeInUp 1s ease-out forwards',
             'slide-in': 'slideIn 1s ease-out forwards',
+            'pulse-fast': 'pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite',
           },
           keyframes: {
             fadeInUp: {
-              '0%': { opacity: '0', transform: 'translateY(30px)' },
+              '0%': { opacity: '0', transform: 'translateY(20px)' },
               '100%': { opacity: '1', transform: 'translateY(0)' },
             },
             slideIn: {
-              '0%': { opacity: '0', transform: 'translateX(-30px)' },
+              '0%': { opacity: '0', transform: 'translateX(-20px)' },
               '100%': { opacity: '1', transform: 'translateX(0)' },
             }
           }
@@ -66,12 +68,24 @@
   </style>
 </head>
 
-<body class="bg-zinc-950 text-white font-sans antialiased flex flex-col min-h-screen">
+<body class="bg-zinc-950 text-white font-sans antialiased flex flex-col min-h-screen overflow-x-hidden"
+  x-data="{ pageLoaded: false }" x-init="setTimeout(() => pageLoaded = true, 500)">
+
+  <!-- Page Loader -->
+  <div class="fixed inset-0 z-[100] flex items-center justify-center bg-zinc-950 transition-opacity duration-700"
+    :class="pageLoaded ? 'opacity-0 pointer-events-none' : 'opacity-100'">
+    <div class="flex flex-col items-center gap-4">
+      <div class="h-12 w-12 animate-spin rounded-full border-4 border-zinc-800 border-t-brand-blue"></div>
+      <div class="text-sm font-bold tracking-[0.2em] text-zinc-500 animate-pulse">CARGANDO...</div>
+    </div>
+  </div>
+
   <!-- Header -->
-  <header class="w-full relative z-50">
+  <header class="w-full relative z-50 transition-all duration-700 delay-300 transform"
+    :class="pageLoaded ? 'translate-y-0 opacity-100' : '-translate-y-4 opacity-0'">
     <!-- Top Bar -->
-    <div class="bg-black border-b border-zinc-900 text-[11px] md:text-xs text-zinc-400 py-2.5 tracking-wide">
-      <div class="container mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-2">
+    <div class="hidden md:block bg-black border-b border-zinc-900 text-xs text-zinc-400 py-2.5 tracking-wide">
+      <div class="container mx-auto px-4 flex justify-between items-center gap-2">
         <!-- Left: Contact Info -->
         <div class="flex flex-wrap justify-center md:justify-start gap-x-6 gap-y-2 items-center">
           <a href="mailto:thewraplab@gmail.com" class="hover:text-white transition-colors flex items-center gap-2">
@@ -100,13 +114,13 @@
 
     <!-- Main Navbar -->
     <div class="bg-black/95 backdrop-blur-sm border-b border-zinc-900/50 sticky top-0 z-50">
-      <div class="container mx-auto px-4">
-        <div class="flex items-center justify-between h-20 md:h-24">
+      <div class="container mx-auto px-2 md:px-4">
+        <div class="flex items-center justify-between h-14 md:h-24">
           <!-- Logo -->
           <a href="/" class="flex-shrink-0 group">
             <div class="flex flex-col leading-none">
-              <span class="font-black text-xl md:text-2xl tracking-tighter text-white">THE LAB</span>
-              <span class="font-bold text-lg md:text-xl tracking-widest text-brand-blue -mt-1">WRAP</span>
+              <span class="font-black text-base md:text-2xl tracking-tighter text-white">THE WRAP</span>
+              <span class="font-bold text-[10px] md:text-xl tracking-widest text-brand-blue -mt-1">LAB</span>
             </div>
           </a>
 
@@ -115,7 +129,8 @@
             <a href="/"
               class="text-sm font-bold tracking-[0.2em] text-white hover:text-brand-blue transition-colors py-1 relative group">
               INICIO
-              <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-brand-blue transition-all duration-300 group-hover:w-full"></span>
+              <span
+                class="absolute bottom-0 left-0 w-0 h-0.5 bg-brand-blue transition-all duration-300 group-hover:w-full"></span>
             </a>
             <a href="/seguimiento/"
               class="text-sm font-bold tracking-[0.2em] text-brand-blue border-b-2 border-brand-blue py-1">
@@ -141,10 +156,10 @@
             </div>
 
             <!-- Mobile Menu Button -->
-            <div class="lg:hidden flex items-center gap-4 ml-4">
+            <div class="lg:hidden flex items-center gap-4 ml-2">
               <button id="mobile-menu-btn"
-                class="w-12 h-12 bg-brand-blue text-white flex items-center justify-center hover:bg-blue-700 transition-colors z-50 relative">
-                <i class="bi bi-list text-2xl" id="menu-icon"></i>
+                class="w-10 h-10 bg-brand-blue text-white flex items-center justify-center hover:bg-blue-700 transition-colors z-50 relative">
+                <i class="bi bi-list text-xl" id="menu-icon"></i>
               </button>
             </div>
           </div>
@@ -195,36 +210,38 @@
   </script>
 
   <!-- Main Content -->
-  <main class="flex-grow container mx-auto px-4 py-8 md:py-12">
-    <div class="relative mx-auto w-full max-w-4xl">
+  <main class="flex-grow container mx-auto px-2 py-4 md:px-4 md:py-12 overflow-x-hidden">
+    <div class="relative mx-auto w-full max-w-4xl overflow-hidden">
       <!-- Glow Effects -->
       <div class="absolute -left-20 -top-20 h-64 w-64 rounded-full bg-brand-blue/10 blur-[100px]"></div>
       <div class="absolute -bottom-20 -right-20 h-64 w-64 rounded-full bg-cyan-500/10 blur-[100px]"></div>
 
-      <div class="relative flex flex-col gap-6">
+      <div class="relative flex flex-col gap-4 md:gap-6">
         <!-- Header Card -->
-        <section class="overflow-hidden rounded-3xl border border-zinc-800 bg-zinc-900/50 shadow-2xl backdrop-blur-xl">
+        <section
+          class="overflow-hidden rounded-2xl md:rounded-3xl border border-zinc-800 bg-zinc-900/50 shadow-2xl backdrop-blur-xl transition-all duration-700 delay-300 transform"
+          :class="pageLoaded ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'">
           <!-- Top Bar with Gradient -->
           <div class="h-1 w-full bg-gradient-to-r from-brand-blue via-blue-500 to-cyan-400"></div>
 
-          <div class="p-6 sm:p-10">
-            <div class="flex flex-col gap-10">
+          <div class="p-3 sm:p-10">
+            <div class="flex flex-col gap-5 md:gap-10">
               <!-- Header Info -->
-              <div class="flex flex-col justify-between gap-6 sm:flex-row sm:items-start">
+              <div class="flex flex-col justify-between gap-4 md:gap-6 sm:flex-row sm:items-start">
                 <div>
-                  <div class="flex flex-wrap items-center gap-3">
+                  <div class="flex flex-wrap items-center gap-2 md:gap-3">
                     <span
-                      class="inline-flex items-center rounded-full border border-zinc-700 bg-zinc-800/50 px-3 py-1 text-xs font-medium text-zinc-300 backdrop-blur-sm">
+                      class="inline-flex items-center rounded-full border border-zinc-700 bg-zinc-800/50 px-2.5 py-0.5 text-[10px] md:text-xs font-medium text-zinc-300 backdrop-blur-sm">
                       Folio #{{ orden.folio }}
                     </span>
-                    <span class="text-xs text-zinc-500">
+                    <span class="text-[10px] md:text-xs text-zinc-500">
                       Actualizado {{ orden.actualizado_en|date:"d M, H:i" }}
                     </span>
                   </div>
-                  <h1 class="mt-4 text-3xl font-bold tracking-tight text-white sm:text-4xl">
+                  <h1 class="mt-3 md:mt-4 text-xl font-bold tracking-tight text-white sm:text-4xl">
                     {{ orden.vehiculo_marca }} {{ orden.vehiculo_modelo }}
                   </h1>
-                  <div class="mt-3 flex items-center gap-3 text-lg text-zinc-400">
+                  <div class="mt-2 md:mt-3 flex items-center gap-3 text-sm md:text-lg text-zinc-400">
                     <span>{{ orden.vehiculo_anio }}</span>
                     <span class="h-1 w-1 rounded-full bg-zinc-700"></span>
                     <span class="text-zinc-300">{{ orden.vehiculo_color }}</span>
@@ -239,6 +256,92 @@
                   </div>
                 </div>
               </div>
+
+              <!-- Testigos Section -->
+              {% if orden.testigos %}
+              <div class="rounded-2xl border border-zinc-800 bg-zinc-950/50 p-3 md:p-4">
+                <div class="mb-3 text-[10px] md:text-xs font-medium uppercase tracking-wider text-zinc-500">Testigos
+                  Encendidos</div>
+                <div class="flex flex-wrap gap-2">
+                  {% for testigo in orden.testigos_info %}
+                  <span
+                    class="inline-flex items-center rounded-lg border border-red-500/20 bg-red-500/10 px-2.5 py-1 text-xs font-medium text-red-400">
+                    {% if testigo.code == 'check_engine' %}
+                    <svg class="mr-1.5 h-3.5 w-3.5 text-amber-500" fill="currentColor" viewBox="0 0 24 24">
+                      <path
+                        d="M18.92 6.01C18.72 5.42 18.16 5 17.5 5H6.5C5.84 5 5.28 5.42 5.08 6.01L3 12V20C3 20.55 3.45 21 4 21H5C5.55 21 6 20.55 6 20V19H18V20C18 20.55 18.45 21 19 21H20C20.55 21 21 20.55 21 20V12L18.92 6.01ZM6.5 16C5.67 16 5 15.33 5 14.5C5 13.67 5.67 13 6.5 13C7.33 13 8 13.67 8 14.5C8 15.33 7.33 16 6.5 16ZM17.5 16C16.67 16 16 15.33 16 14.5C16 13.67 16.67 13 17.5 13C18.33 13 19 13.67 19 14.5C19 15.33 18.33 16 17.5 16ZM5 11L6.5 6.5H17.5L19 11H5Z" />
+                    </svg>
+                    {% elif testigo.code == 'battery' %}
+                    <svg class="mr-1.5 h-3.5 w-3.5 text-red-500" fill="currentColor" viewBox="0 0 24 24">
+                      <path
+                        d="M16 20H8V6H16V20ZM16.67 4H15V2H9V4H7.33C6.6 4 6 4.6 6 5.33V20.67C6 21.4 6.6 22 7.33 22H16.67C17.4 22 18 21.4 18 20.67V5.33C18 4.6 17.4 4 16.67 4ZM11 16H13V13H16V11H13V8H11V11H8V13H11V16Z" />
+                    </svg>
+                    {% elif testigo.code == 'oil' %}
+                    <svg class="mr-1.5 h-3.5 w-3.5 text-red-500" fill="currentColor" viewBox="0 0 24 24">
+                      <path
+                        d="M19.7 15.4L15.3 4.1C15 3.3 14 3 13.4 3.7L11.5 6.2C11 5.4 10.1 5 9 5C6.8 5 5 6.8 5 9V17C5 19.2 6.8 21 9 21C11.2 21 13 19.2 13 17V16.3L20.2 16.8C20.8 16.9 21.2 16.2 20.8 15.7L19.7 15.4ZM11 17C11 18.1 10.1 19 9 19C7.9 19 7 18.1 7 17V9C7 7.9 7.9 7 9 7C10.1 7 11 7.9 11 9V17ZM17.2 14.9L13.8 14.6L16.2 8.3L17.2 14.9Z" />
+                    </svg>
+                    {% elif testigo.code == 'temp' %}
+                    <svg class="mr-1.5 h-3.5 w-3.5 text-red-500" fill="currentColor" viewBox="0 0 24 24">
+                      <path
+                        d="M15 13V5C15 3.34 13.66 2 12 2C10.34 2 9 3.34 9 5V13C6.79 14.66 6.34 17.79 8 20C9.66 22.21 12.79 22.66 15 21C15.88 20.34 16.55 19.46 16.88 18.44C17.58 16.29 16.8 13.91 15 13ZM12 4C12.55 4 13 4.45 13 5V8H11V5C11 4.45 11.45 4 12 4Z" />
+                    </svg>
+                    {% elif testigo.code == 'abs' %}
+                    <svg class="mr-1.5 h-3.5 w-3.5 text-amber-500" fill="currentColor" viewBox="0 0 24 24">
+                      <path
+                        d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-4h2v2h-2zm0-2h2V7h-2z" />
+                      <text x="12" y="14" font-size="6" text-anchor="middle" fill="currentColor" font-weight="bold"
+                        font-family="sans-serif">ABS</text>
+                    </svg>
+                    {% elif testigo.code == 'brake' %}
+                    <svg class="mr-1.5 h-3.5 w-3.5 text-red-500" fill="currentColor" viewBox="0 0 24 24">
+                      <path
+                        d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-4h2v2h-2zm0-2h2V7h-2z" />
+                      <text x="12" y="14" font-size="5" text-anchor="middle" fill="currentColor" font-weight="bold"
+                        font-family="sans-serif">BRAKE</text>
+                    </svg>
+                    {% elif testigo.code == 'airbag' %}
+                    <svg class="mr-1.5 h-3.5 w-3.5 text-red-500" fill="currentColor" viewBox="0 0 24 24">
+                      <path
+                        d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 13c-2.67 0-8 1.34-8 4v1h16v-1c0-2.66-5.33-4-8-4zm0-8c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z" />
+                    </svg>
+                    {% elif testigo.code == 'tire' %}
+                    <svg class="mr-1.5 h-3.5 w-3.5 text-amber-500" fill="currentColor" viewBox="0 0 24 24">
+                      <path
+                        d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15h2v2h-2zm0-10h2v6h-2z" />
+                      <path d="M17 5v14h2V5h-2zm-12 0v14h2V5H5z" />
+                    </svg>
+                    {% elif testigo.code == 'stability' %}
+                    <svg class="mr-1.5 h-3.5 w-3.5 text-amber-500" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M5 16h14v2H5zm0-4h14v2H5zm0-4h14v2H5z" />
+                    </svg>
+                    {% elif testigo.code == 'bulb' %}
+                    <svg class="mr-1.5 h-3.5 w-3.5 text-amber-500" fill="currentColor" viewBox="0 0 24 24">
+                      <path
+                        d="M9 21c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-1H9v1zm3-19C8.14 2 5 5.14 5 9c0 2.38 1.19 4.47 3 5.74V17c0 .55.45 1 1 1h6c.55 0 1-.45 1-1v-2.26c1.81-1.27 3-3.36 3-5.74 0-3.86-3.14-7-7-7zm2.85 11.1l-.85.6V16h-4v-2.3l-.85-.6C7.93 12.07 7 10.64 7 9c0-2.76 2.24-5 5-5s5 2.24 5 5c0 1.63-.93 3.07-2.15 4.1z" />
+                    </svg>
+                    {% elif testigo.code == 'gas' %}
+                    <svg class="mr-1.5 h-3.5 w-3.5 text-amber-500" fill="currentColor" viewBox="0 0 24 24">
+                      <path
+                        d="M19.77 7.23l.01-.01-3.72-3.72L15 4.56l2.11 2.11c-.94.36-1.61 1.26-1.61 2.33a2.5 2.5 0 0 0 2.5 2.5c.36 0 .69-.08 1-.21v7.21c0 .55-.45 1-1 1s-1-.45-1-1V14c0-1.1-.9-2-2-2h-1V5c0-1.1-.9-2-2-2H6c-1.1 0-2 .9-2 2v16h10v-7.5h1.5v5c0 1.38 1.12 2.5 2.5 2.5s2.5-1.12 2.5-2.5V9c0-.69-.28-1.32-.73-1.77zM12 10H6V5h6v5zm6 0c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1z" />
+                    </svg>
+                    {% elif testigo.code == 'service' %}
+                    <svg class="mr-1.5 h-3.5 w-3.5 text-amber-500" fill="currentColor" viewBox="0 0 24 24">
+                      <path
+                        d="M22.7 19l-9.1-9.1c.9-2.3.4-5-1.5-6.9-2-2-5-2.4-7.4-1.3L9 6 6 9 1.6 4.7C.4 7.1.9 10.1 2.9 12.1c1.9 1.9 4.6 2.4 6.9 1.5l9.1 9.1c.4.4 1 .4 1.4 0l2.3-2.3c.5-.4.5-1.1.1-1.4z" />
+                    </svg>
+                    {% else %}
+                    <svg class="mr-1.5 h-3 w-3" fill="currentColor" viewBox="0 0 24 24">
+                      <path
+                        d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z" />
+                    </svg>
+                    {% endif %}
+                    {{ testigo.label }}
+                  </span>
+                  {% endfor %}
+                </div>
+              </div>
+              {% endif %}
 
               <!-- Progress Tracker -->
               <div class="relative py-4">
@@ -287,15 +390,16 @@
 
             <!-- Payment Section -->
             <div class="mt-4 flex flex-col md:flex-row gap-6 border-t border-zinc-800 pt-6">
-              <div class="flex-1 bg-zinc-950 rounded-xl p-6 border border-zinc-800">
-                <h3 class="text-xl font-bold text-white mb-2">Saldo Pendiente</h3>
-                <div class="text-3xl font-black {% if orden.saldo_pendiente > 0 %}text-red-600{% else %}text-green-500{% endif %}">
+              <div class="flex-1 bg-zinc-950 rounded-xl p-4 sm:p-6 border border-zinc-800">
+                <h3 class="text-lg sm:text-xl font-bold text-white mb-2">Saldo Pendiente</h3>
+                <div
+                  class="text-2xl sm:text-3xl font-black {% if orden.saldo_pendiente > 0 %}text-red-600{% else %}text-green-500{% endif %}">
                   $ {{ orden.saldo_pendiente|floatformat:2 }} MXN
                 </div>
-                
+
                 {% if orden.saldo_pendiente > 0 %}
-                <a href="https://link.mercadopago.com.mx/evolutionwraps" target="_blank" 
-                   class="mt-6 inline-flex items-center justify-center w-full md:w-auto px-6 py-3 bg-[#009EE3] hover:bg-[#008CC9] text-white font-bold rounded-lg transition-all duration-300 shadow-lg shadow-blue-500/20 gap-2">
+                <a href="https://link.mercadopago.com.mx/evolutionwraps" target="_blank"
+                  class="mt-6 inline-flex items-center justify-center w-full md:w-auto px-6 py-3 bg-[#009EE3] hover:bg-[#008CC9] text-white font-bold rounded-lg transition-all duration-300 shadow-lg shadow-blue-500/20 gap-2">
                   <i class="bi bi-credit-card-2-front-fill"></i>
                   PAGAR CON MERCADO PAGO
                 </a>
@@ -306,43 +410,77 @@
                 </div>
                 {% endif %}
               </div>
-              
+
               <div class="flex-1 flex flex-col justify-center text-sm text-zinc-400">
-                 <p class="mb-2"><i class="bi bi-info-circle mr-2"></i>El pago se realiza de forma segura a través de Mercado Pago.</p>
-                 <p><i class="bi bi-shield-check mr-2"></i>Aceptamos tarjetas de crédito, débito y transferencias.</p>
+                <p class="mb-2"><i class="bi bi-info-circle mr-2"></i>El pago se realiza de forma segura a través de
+                  Mercado Pago.</p>
+                <p><i class="bi bi-shield-check mr-2"></i>Aceptamos tarjetas de crédito, débito y transferencias.</p>
               </div>
             </div>
 
           </div>
         </section>
 
+        <!-- Gallery Section -->
+        {% if fotos %}
+        <section
+          class="overflow-hidden rounded-3xl border border-zinc-800 bg-zinc-900/50 shadow-xl backdrop-blur-xl transition-all duration-700 delay-500 transform"
+          :class="pageLoaded ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'">
+          <div class="border-b border-zinc-800 bg-zinc-900/30 px-4 py-4 sm:px-8 sm:py-6">
+            <h2 class="text-base sm:text-lg font-semibold text-white">Galería de Evidencias</h2>
+          </div>
+          <div class="p-3 sm:p-8">
+            <div class="grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-4">
+              {% for foto in fotos %}
+              <div onclick="openLightbox('{{ foto.url }}')"
+                class="group relative aspect-square cursor-pointer overflow-hidden rounded-xl border border-zinc-700/50 bg-zinc-950 transition-all hover:border-brand-blue/50 hover:shadow-[0_0_20px_rgba(0,80,230,0.15)] hover:-translate-y-1">
+
+                <img src="{{ foto.url }}" alt="Foto evidencia" loading="lazy"
+                  class="h-full w-full object-cover transition duration-700 group-hover:scale-110">
+
+                <div class="absolute inset-0 bg-black/0 transition-colors group-hover:bg-black/20">
+                  <div
+                    class="absolute inset-0 flex items-center justify-center opacity-0 transition-opacity group-hover:opacity-100">
+                    <i
+                      class="bi bi-arrows-fullscreen text-2xl text-white drop-shadow-lg transform scale-75 group-hover:scale-100 transition-transform duration-300"></i>
+                  </div>
+                </div>
+              </div>
+              {% endfor %}
+            </div>
+          </div>
+        </section>
+        {% endif %}
+
         <!-- Updates Section -->
-        <section class="overflow-hidden rounded-3xl border border-zinc-800 bg-zinc-900/50 shadow-xl backdrop-blur-xl">
-          <div class="border-b border-zinc-800 bg-zinc-900/30 px-6 py-5 sm:px-8 sm:py-6">
-            <h2 class="text-lg font-semibold text-white">Bitácora de Avances</h2>
+        <section
+          class="overflow-hidden rounded-3xl border border-zinc-800 bg-zinc-900/50 shadow-xl backdrop-blur-xl transition-all duration-700 delay-700 transform"
+          :class="pageLoaded ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'">
+          <div class="border-b border-zinc-800 bg-zinc-900/30 px-4 py-4 sm:px-8 sm:py-6">
+            <h2 class="text-base sm:text-lg font-semibold text-white">Bitácora de Avances</h2>
           </div>
 
-          <div class="p-6 sm:p-8">
+          <div class="p-3 sm:p-8">
             {% if avances %}
-            <div class="relative ml-3 space-y-8 border-l border-zinc-800">
+            <div class="relative ml-3 space-y-6 sm:space-y-8 border-l border-zinc-800">
               {% for avance in avances %}
-              <div class="relative ml-8">
+              <div class="relative ml-6 sm:ml-8">
                 <!-- Timeline Dot -->
                 <span
-                  class="absolute -left-[41px] top-1.5 flex h-4 w-4 items-center justify-center rounded-full border border-zinc-900 bg-zinc-800 ring-4 ring-zinc-950">
+                  class="absolute -left-[35px] sm:-left-[41px] top-1.5 flex h-4 w-4 items-center justify-center rounded-full border border-zinc-900 bg-zinc-800 ring-4 ring-zinc-950">
                   <span class="h-1.5 w-1.5 rounded-full bg-zinc-400"></span>
                 </span>
 
                 <div
-                  class="group rounded-2xl border border-zinc-800 bg-zinc-900/30 p-5 transition-all hover:border-zinc-700 hover:bg-zinc-900/50">
+                  class="group rounded-2xl border border-zinc-800 bg-zinc-900/30 p-4 sm:p-5 transition-all hover:border-zinc-700 hover:bg-zinc-900/50">
                   <div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
                     <span
-                      class="inline-flex w-fit items-center rounded-lg border border-brand-blue/20 bg-brand-blue/10 px-2.5 py-1 text-xs font-medium text-blue-400">
+                      class="inline-flex w-fit items-center rounded-lg border border-brand-blue/20 bg-brand-blue/10 px-2.5 py-1 text-[10px] sm:text-xs font-medium text-blue-400">
                       {{ avance.get_estatus_display }}
                     </span>
-                    <time class="text-xs text-zinc-500">{{ avance.creado_en|date:"d M Y, h:i a" }}</time>
+                    <span class="text-[10px] sm:text-xs text-zinc-500">{{ avance.creado_en|date:"d M Y, h:i a" }}</span>
                   </div>
-                  <div class="mt-3 text-sm leading-relaxed text-zinc-300">
+                  <div class="mt-2 sm:mt-3 text-xs sm:text-sm leading-relaxed text-zinc-300">
                     {{ avance.nota|linebreaksbr }}
                   </div>
                 </div>
@@ -368,7 +506,7 @@
 
   <!-- Footer Section -->
   <footer class="bg-black border-t border-zinc-900 py-8">
-    <div class="container mx-auto px-4">
+    <div class="container mx-auto px-3 md:px-4">
       <div class="flex flex-col md:flex-row justify-between items-center gap-6 text-sm">
         <!-- Copyright -->
         <div class="text-zinc-400 text-center md:text-left">
@@ -397,31 +535,57 @@
     </div>
   </footer>
 
-  <!-- Scroll to Top Button -->
-  <button id="scrollTopBtn" onclick="scrollToTop()"
-    class="fixed bottom-8 right-8 w-12 h-12 bg-brand-blue text-white rounded-full shadow-[0_0_20px_rgba(0,80,230,0.4)] flex items-center justify-center translate-y-20 opacity-0 transition-all duration-500 z-40 hover:scale-110 hover:bg-blue-600 cursor-pointer">
-    <i class="bi bi-arrow-up text-xl font-bold"></i>
-  </button>
+  <!-- Lightbox Modal -->
+  <div id="lightbox"
+    class="fixed inset-0 z-[100] hidden bg-black/95 backdrop-blur-sm transition-opacity duration-300 opacity-0"
+    onclick="closeLightbox()">
+    <button class="absolute right-4 top-4 z-[110] p-2 text-white hover:text-brand-blue transition-colors">
+      <i class="bi bi-x-lg text-3xl"></i>
+    </button>
+    <div class="flex h-full w-full items-center justify-center p-2 sm:p-4">
+      <img id="lightbox-img" src="" alt="Full size"
+        class="max-h-[90vh] max-w-[95vw] object-contain rounded-lg shadow-2xl transition-transform duration-300 scale-95"
+        onclick="event.stopPropagation()">
+    </div>
+  </div>
 
   <script>
-    // Scroll to Top Logic
-    const scrollTopBtn = document.getElementById('scrollTopBtn');
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightbox-img');
 
-    window.addEventListener('scroll', () => {
-      if (window.scrollY > 500) {
-        scrollTopBtn.classList.remove('translate-y-20', 'opacity-0');
-      } else {
-        scrollTopBtn.classList.add('translate-y-20', 'opacity-0');
-      }
-    });
-
-    function scrollToTop() {
-      window.scrollTo({
-        top: 0,
-        behavior: 'smooth'
-      });
+    function openLightbox(url) {
+      lightboxImg.src = url;
+      lightbox.classList.remove('hidden');
+      // Small delay to allow display:block to apply before adding opacity class for transition
+      setTimeout(() => {
+        lightbox.classList.remove('opacity-0');
+        lightboxImg.classList.remove('scale-95');
+        lightboxImg.classList.add('scale-100');
+      }, 10);
+      document.documentElement.style.overflow = 'hidden';
+      document.body.style.overflow = 'hidden';
     }
+
+    function closeLightbox() {
+      lightbox.classList.add('opacity-0');
+      lightboxImg.classList.remove('scale-100');
+      lightboxImg.classList.add('scale-95');
+
+      setTimeout(() => {
+        lightbox.classList.add('hidden');
+        lightboxImg.src = '';
+      }, 300); // Match transition duration
+      document.documentElement.style.overflow = '';
+      document.body.style.overflow = '';
+    }
+
+    // Close on escape key
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') closeLightbox();
+    });
   </script>
+
+
 </body>
 
 </html>
